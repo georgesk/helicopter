@@ -1,5 +1,6 @@
 from django.contrib import admin
 from plans.models import Plan
+import plans.views as views
 
 # Register your models here.
 
@@ -15,6 +16,21 @@ class PlanAdmin (admin.ModelAdmin):
                 '/static/plans/js/jquery-ui/css/smoothness/jquery-ui.min.css',
             ),
         }
-    fields = ('hauteur_helice',)
-
+    fields = (
+        ('hauteur_helice','hauteur_habitacle','hauteur_corps',),
+        ('largeur_totale', 'trombones','couches_corps',),
+        ('corps_scotche','helices_scotchees','largeur_scotch',),
+        ('repli','decalage_repli','angle_repli',),
+        ('sens_rotation','imprimer_symboles',),
+    )
+    
+    list_display = (
+        'hauteur_helice','hauteur_habitacle','hauteur_corps',
+        'largeur_totale', 'trombones','couches_corps',
+        'corps_scotche','helices_scotchees','largeur_scotch',
+        'repli','decalage_repli','angle_repli',
+        'sens_rotation','imprimer_symboles',
+        )
+    actions = [views.svg]
+    
 admin.site.register(Plan, PlanAdmin)

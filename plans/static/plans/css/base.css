@@ -1,3 +1,10 @@
 body {
     background: wheat;
 }
+
+#changelist table thead th {
+    /* évite les colonnes trop larges dans l'administration des objets */
+    white-space: normal;
+    text-align: center;
+
+}

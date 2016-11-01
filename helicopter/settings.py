@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from ldap3 import Server, Connection
+import django_python3_ldap.utils
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -119,3 +121,37 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+    
+# LDAP connection
+server = Server('localhost', port=1389)
+connection = Connection(server)
+connection.bind()
+
+
+############# for the LDAP AUTH BACKEND ########################
+# The URL of the LDAP server.
+LDAP_AUTH_URL = "ldap://localhost:1389"
+
+# The LDAP search base for looking up users.
+LDAP_AUTH_SEARCH_BASE = "ou=Users,dc=lycee,dc=jb"
+
+# The LDAP class that represents a user.
+LDAP_AUTH_OBJECT_CLASS = "kwartzAccount"
+
+# User model fields mapped to the LDAP
+# attributes that represent them.
+LDAP_AUTH_USER_FIELDS = {
+    "username": "uid",
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail",
+}
+
+# A tuple of fields used to uniquely identify a user.
+LDAP_AUTH_USER_LOOKUP_FIELDS = ("username",)
+
+# Callable that transforms the user data loaded from
+# LDAP into a form suitable for creating a user.
+# Override this to set custom field formatting for your
+# user model.
+LDAP_AUTH_CLEAN_USER_DATA = django_python3_ldap.utils.clean_user_data

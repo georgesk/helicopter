@@ -1,2 +1,4 @@
 python3-django
 python3-svg.path
+python3-django-python3-ldap
+python3-ldap3

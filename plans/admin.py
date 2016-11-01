@@ -25,6 +25,7 @@ class PlanAdmin (admin.ModelAdmin):
     )
     
     list_display = (
+        'creation',
         'hauteur_helice','hauteur_habitacle','hauteur_corps',
         'largeur_totale', 'trombones','couches_corps',
         'corps_scotche','helices_scotchees','largeur_scotch',

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.forms import Form, ModelForm, ValidationError, Select
+from django.utils import timezone
 from helicopter.svg import *
 from svg.path import *
 import math, hashlib
@@ -9,6 +10,14 @@ import math, hashlib
 
 class Plan(models.Model):
     version = "v1.0"
+    class Meta:
+        unique_together = ('hauteur_helice', 'hauteur_habitacle', 'hauteur_corps', 'largeur_totale', 'trombones', 'repli', 'corps_scotche', 'helices_scotchees', 'decalage_repli', 'angle_repli', 'couches_corps', 'sens_rotation', 'largeur_scotch', 'imprimer_symboles')
+    creation = models.DateTimeField(
+        editable=False,
+        auto_now_add=True,
+        blank=True,
+        verbose_name = "Date de création du plan"
+    )
     hauteur_helice = models.IntegerField(
         verbose_name = "Hauteur de l'hélice (mm)",
         default      = 70,

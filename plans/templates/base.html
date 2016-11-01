@@ -11,10 +11,13 @@
     <link type="text/css" rel="stylesheet" href="{% static 'plans/css/base.css' %}" />
     <link type="text/css" rel="stylesheet" href="{% static 'plans/js/jquery-ui/css/smoothness/jquery-ui.css' %}" />
     {% endblock %}
+    {% block onload %}
+    <!-- javascript à exécuter au démarrage -->
+    {% endblock %}
   </head>
   <body>
-    {% block content %}
     <h1>{% block contentTitle %}Plans d'hélicoptère{% endblock %}</h1>
+    {% block content %}
     {% endblock %}
   </body>
 </html>

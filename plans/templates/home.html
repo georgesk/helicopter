@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Hélicoptère : Page d'accueil{% endblock %}
+{% block contentTitle %}Hélicoptère : Page d'accueil{% endblock %}
+{% block onload %}
+<script type="text/javascript">
+  $( function() { // lancement après le chargement
+    $( "#userinfo" ).accordion({
+      collapsible: true,
+      active: false,
+    });
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div id="userinfo">
+      <h3>
+	{% block welcome %}
+	Bienvenue {{user.first_name}} {{user.last_name}}
+	{% ifequal estprof "prof" %}
+	<br/><span class="remark">professeur</span>
+	{% endifequal %}
+	<br/><span class="remark">Cliquer pour les options ↡</span>
+      </h3>
+      <ul class="dropdownOptions">
+	{% block localoptions %}
+	{% if user.is_superuser %}
+	<li><a href="/admin/">Administration.</a></li>
+	{% endif %}
+	{% endblock %}
+	<!-- dernière option : la déconnexion -->
+	<li><a href="/logout/">Déconnexion</a></li>
+	{% endblock %}
+      </ul>
+    </div>
+    <div style="clear:both"/>
+    <div id="dialog"><!-- sert pour une boîte de dialogue de jQuery --></div>
+    <div id="placeholder-for-fixed-buttons" style="height: 70px;"></div>
+    {% endif %}
+{% endblock %}

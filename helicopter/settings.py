@@ -161,3 +161,7 @@ LDAP_AUTH_USER_LOOKUP_FIELDS = ("username",)
 # Override this to set custom field formatting for your
 # user model.
 LDAP_AUTH_CLEAN_USER_DATA = django_python3_ldap.utils.clean_user_data
+
+
+####################### POUR LES PROFILS ########################"
+AUTH_PROFILE_MODULE = 'plans.Profil'

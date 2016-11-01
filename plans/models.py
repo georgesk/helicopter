@@ -6,8 +6,6 @@ from helicopter.svg import *
 from svg.path import *
 import math, hashlib
 
-# Create your models here.
-
 class Plan(models.Model):
     version = "v1.0"
     class Meta:
@@ -312,3 +310,18 @@ class Plan(models.Model):
         """
         with open(filemname,"w") as out:
             out.write(self.svg())
+
+
+from django.contrib.auth.models import User
+
+PROFIL_CHOIX = ((0,"non inscrit"),(1,"élève atelier"),(2,"prof atelier"))
+class Profil(models.Model):
+    user   = models.OneToOneField(User)
+    statut = models.IntegerField(
+        default      = 0,
+        choices      = PROFIL_CHOIX,
+    )
+
+    def __str__(self):
+        nomProfil=[p[1] for p in PROFIL_CHOIX if p[0]==self.statut][0]
+        return "Profil de {} : {}".format(self.user, nomProfil)

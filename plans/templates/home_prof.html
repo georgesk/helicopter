@@ -1,0 +1,60 @@
+{% extends "home.html" %}
+
+{% block onload %}
+<!-- recopié depuis http://stackoverflow.com/questions/9026867/jquery-accordion-effect-on-a-table -->
+<script type="text/javascript">
+  function plusMinusToggle(el){
+    var sp=$(el).find("span").first();
+    if (sp.text()=="+") sp.text("-"); else sp.text("+");
+  }
+  $(function() {
+    $(".listeUtilisateurs tr.controle").find("th").prepend($('<span>+</span>').addClass("bascule")).attr("title","Clic pour plier/déplier");
+    $(".listeUtilisateurs tr:not(.controle)").hide();
+  
+    $(".listeUtilisateurs tr.controle").click(function(){
+      plusMinusToggle(this);
+      $(this).nextAll("tr").fadeToggle(500);
+    }).eq(0).trigger('click');
+  });
+  $( function() { // lancement après le chargement
+    $( "#userinfo" ).accordion({
+      collapsible: true,
+      active: false,
+    });
+  } );
+</script>
+{% endblock %}
+    
+{% block localoptions %}
+<li>Statut : {{profil}}</li>
+{% endblock %}
+
+{% block specificContent %}
+{% if profs|length > 0 %}
+<table class="listeUtilisateurs">
+  <tr class="controle"><th colspan="2">Professeurs de l'atelier</th></tr>
+  {% for p in profs %}
+  <tr><td>{{p.first_name}}</td><td>{{p.last_name}}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if eleves|length > 0 %}
+<table class="listeUtilisateurs">
+  <tr class="controle"><th colspan="2">Élèves de l'atelier</th></tr>
+  {% for e in eleves %}
+  <tr><td>{{e.first_name}}</td><td>{{e.last_name}}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if visiteurs|length > 0 %}
+<table class="listeUtilisateurs">
+  <tr class="controle"><th colspan="2">Visiteurs authentifiés</th></tr>
+  {% for v in visiteurs %}
+  <tr><td>{{v.first_name}}</td><td>{{v.last_name}}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

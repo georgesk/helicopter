@@ -323,5 +323,7 @@ class Profil(models.Model):
     )
 
     def __str__(self):
-        nomProfil=[p[1] for p in PROFIL_CHOIX if p[0]==self.statut][0]
-        return "Profil de {} : {}".format(self.user, nomProfil)
+        return "Profil de {} : {}".format(self.user, self.verbose_statut())
+    
+    def verbose_statut(self):
+        return [p[1] for p in PROFIL_CHOIX if p[0]==self.statut][0]

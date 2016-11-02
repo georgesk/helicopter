@@ -13,3 +13,31 @@ body {
     float: right;
     width: 300px;
 }
+
+table.listeUtilisateurs th {
+    background-color: lightcyan;
+    border: 1px black solid;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    min-width: 20em;
+    text-align: left;
+}
+
+table.listeUtilisateurs td {
+    background-color: lightyellow;
+    border: 1px black solid;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    text-align: left;
+}
+
+span.bascule {
+    font-size:200%;
+    margin-right: 0.5em;
+    width: 1em;
+}
+
+span.remark {
+    font-size: 60%;
+    color: #888;
+}

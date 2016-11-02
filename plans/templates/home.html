@@ -14,6 +14,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+    {% block userinfo %}
     <div id="userinfo">
       <h3>
 	{% block welcome %}
@@ -35,6 +36,11 @@
       </ul>
     </div>
     <div style="clear:both"/>
+    {% endblock %}
+    {% block specificContent %}
+    <!-- contenus spécifiques à une catégorie de visiteurs -->
+    Profil : {{profil}}
+    {% endblock %}
     <div id="dialog"><!-- sert pour une boîte de dialogue de jQuery --></div>
     <div id="placeholder-for-fixed-buttons" style="height: 70px;"></div>
     {% endif %}

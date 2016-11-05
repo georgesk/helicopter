@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.forms import Form, ModelForm, ValidationError, Select
 from django.utils import timezone
+from django.contrib.auth.models import User
 from helicopter.svg import *
 from svg.path import *
 import math, hashlib
@@ -16,6 +17,7 @@ class Plan(models.Model):
         blank=True,
         verbose_name = "Date de création du plan"
     )
+    auteur = models.ForeignKey(User)
     hauteur_helice = models.IntegerField(
         verbose_name = "Hauteur de l'hélice (mm)",
         default      = 70,
@@ -85,7 +87,8 @@ class Plan(models.Model):
     )
 
     def __str__(self):
-        return "Plan object(" + ", ".join([str(getattr(self, f.name)) for f in self._meta.get_fields() if f.name.lower()!='id']) + ")"
+        attributs = [str(getattr(self, f.name)) for f in self._meta.get_fields() if f.name.lower() not in ('id', 'experience', 'creation')]
+        return "Plan object(" + ", ".join(attributs) + ")"
 
     def immatriculation(self):
         """
@@ -312,8 +315,6 @@ class Plan(models.Model):
             out.write(self.svg())
 
 
-from django.contrib.auth.models import User
-
 PROFIL_CHOIX = ((0,"non inscrit"),(1,"élève atelier"),(2,"prof atelier"))
 class Profil(models.Model):
     user   = models.OneToOneField(User)
@@ -333,7 +334,23 @@ CHOICES_ANALOG = list(enumerate([f.verbose_name for f in Plan._meta.fields if is
 CHOICES_BINARY = list(enumerate([f.verbose_name for f in Plan._meta.fields if isinstance(f, models.BooleanField) and f.name!="imprimer_symboles"]+
                                [f.verbose_name for f in Plan._meta.fields if isinstance(f, models.IntegerField) and len(f.choices)==2]))
 
-class experienceAA(models.Model):
+class variationAA(models.Model):
+    """
+    Décrit une variation systématique de deux paramètres "analogiques"
+    dont un prendra 3 valeurs différentes et l'autre 4 valeurs différentes,
+    d'où la possibilité d'imprimer 12 plans différents.
+    """
+    class Meta:
+        verbose_name = "variation analogique/analogique"
+        verbose_name_plural = "variations analogique/analogique"
+
+    auteur   = models.ForeignKey(User)
+    creation = models.DateTimeField(
+        editable=False,
+        auto_now_add=True,
+        blank=True,
+        verbose_name = "Date de création de la variation"
+    )
     param1 = models.IntegerField(
         verbose_name = "paramètre analogique 1",
         default      = 0,
@@ -366,3 +383,43 @@ class experienceAA(models.Model):
         verbose_name = "valeur 2 (4)",
     )
 
+    def __str__(self):
+        dico=self.__dict__
+        dico["au"]=self.auteur
+        return "Variation({au} [{param1}={val11},{val12},{val13}],[{param2}={val21},{val22},{val23},{val24}])".format(**dico)
+
+
+class Experience(models.Model):
+    """
+    Une expérience, c'est un plan "de base", associé à une variation
+    à choisir parmi une variation analogique/analogique, ou
+    analogique/binaire, ou binaire/binaire. Celle-ci permet dans tous les
+    cas d'imprimer 12 plans.
+    .
+    Une expérience est associée à un auteur et une date de conception.
+    """
+    creation = models.DateTimeField(
+        editable=False,
+        auto_now_add=True,
+        blank=True,
+        verbose_name = "Date de création de l'expérience"
+    )
+    auteur = models.ForeignKey(User)
+    plan   = models.ForeignKey(Plan)
+    var1   = models.ForeignKey(variationAA, blank=True, default=None)
+    """
+    var2   = models.ForeignKey(variationAB)
+    var3   = models.ForeignKey(variationBB)
+    """
+    
+    def clean(self, *args, **kwargs):
+        """
+        On vérifie qu'une et une seule des clés var1, var2, var3 est
+        définie
+        """
+        super(Experience, self).clean(*args, **kwargs)
+        
+    def __str__(self):
+        dico=self.__dict__
+        dico["au"]=self.auteur
+        return "Experience({}, {}, {})".format(self.auteur, self.plan, self.var1)

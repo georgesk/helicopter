@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib import admin
-from .models import experienceAA
+from .models import variationAA
 
 
-class experienceAAAdminForm(forms.ModelForm):
+class variationAAAdminForm(forms.ModelForm):
     val11=forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     val12=forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     val13=forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -14,20 +14,18 @@ class experienceAAAdminForm(forms.ModelForm):
     val1=forms.CharField(widget=forms.SelectMultiple())
     val2=forms.CharField(widget=forms.SelectMultiple())
     class Meta:
-        model = experienceAA
-        fields = ("param1", "val11", "val12", "val13", "param2", "val21", "val22", "val23", "val24")
+        model = variationAA
+        fields = ("auteur","param1", "val11", "val12", "val13", "param2", "val21", "val22", "val23", "val24")
 
     def clean(self):
         errors = {}
-        cleaned_data = super(experienceAAAdminForm, self).clean()
+        cleaned_data = super(variationAAAdminForm, self).clean()
         v1 = eval(cleaned_data.get("val1"))
         v2 = eval(cleaned_data.get("val2"))
         p1 = cleaned_data.get("param1")
         p2 = cleaned_data.get("param2")
         if p1==p2:
             errors.setdefault('param1',[]).append("Les paramètres 1 et 2 doivent être deux grandeurs différentes !")
-        print("GRRR v1, v2 = ", v1, v2, len(v1) , len(v2))
-        print("GRRR cleaned_data", cleaned_data)
         if len(v1) != 3:
             errors.setdefault('val1',[]).append("Le premier paramètre doit avoir trois valeurs différentes")
         else:

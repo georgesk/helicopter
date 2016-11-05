@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Plan, Profil, experienceAA
+from .models import Plan, Profil, variationAA, Experience
 import plans.views as views
-from .forms import experienceAAAdminForm
+from .forms import variationAAAdminForm
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
@@ -18,6 +18,7 @@ class PlanAdmin (admin.ModelAdmin):
             ),
         }
     fields = (
+        ('auteur'),
         ('hauteur_helice','hauteur_habitacle','hauteur_corps',),
         ('largeur_totale', 'trombones','couches_corps',),
         ('corps_scotche','helices_scotchees','largeur_scotch',),
@@ -50,7 +51,7 @@ class ProfilAdmin (admin.ModelAdmin):
 
 admin.site.register(Profil, ProfilAdmin)
 
-class experienceAAAdmin(admin.ModelAdmin):
+class variationAAAdmin(admin.ModelAdmin):
     class Media:
         js = (
             '/static/plans/js/jquery/jquery.js',
@@ -65,7 +66,13 @@ class experienceAAAdmin(admin.ModelAdmin):
                 '/static/plans/js/select2.js/select2.css',
             ),
         }
-    list_display  = ["param1", "val11", "val12", "val13", "param2", "val21", "val22", "val23", "val24"]
-    form = experienceAAAdminForm
+    list_display  = ["auteur", "param1", "val11", "val12", "val13", "param2", "val21", "val22", "val23", "val24"]
+    form = variationAAAdminForm
     
-admin.site.register(experienceAA, experienceAAAdmin)
+admin.site.register(variationAA, variationAAAdmin)
+
+class ExperienceAdmin(admin.ModelAdmin):
+    list_display = ["auteur", "creation", "plan", "var1"]
+
+
+admin.site.register(Experience, ExperienceAdmin)

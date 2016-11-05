@@ -1,0 +1,1 @@
+/usr/share/javascript/select2.js

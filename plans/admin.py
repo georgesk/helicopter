@@ -1,6 +1,7 @@
 from django.contrib import admin
-from plans.models import Plan, Profil
+from .models import Plan, Profil, experienceAA
 import plans.views as views
+from .forms import experienceAAAdminForm
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
@@ -9,7 +10,7 @@ class PlanAdmin (admin.ModelAdmin):
         js = (
             '/static/plans/js/jquery/jquery.js',
             '/static/plans/js/jquery-ui/jquery-ui.js',
-)
+        )
         css = {
             'all': (
                 '/static/plans/css/base.css',
@@ -48,3 +49,23 @@ class ProfilAdmin (admin.ModelAdmin):
     list_filter   = ["statut"]
 
 admin.site.register(Profil, ProfilAdmin)
+
+class experienceAAAdmin(admin.ModelAdmin):
+    class Media:
+        js = (
+            '/static/plans/js/jquery/jquery.js',
+            '/static/plans/js/jquery-ui/jquery-ui.js',
+            '/static/plans/js/select2.js/select2.js',
+            '/static/plans/js/expAA.js',
+        )
+        css = {
+            'all': (
+                '/static/plans/css/base.css',
+                '/static/plans/js/jquery-ui/css/smoothness/jquery-ui.min.css',
+                '/static/plans/js/select2.js/select2.css',
+            ),
+        }
+    list_display  = ["param1", "val11", "val12", "val13", "param2", "val21", "val22", "val23", "val24"]
+    form = experienceAAAdminForm
+    
+admin.site.register(experienceAA, experienceAAAdmin)

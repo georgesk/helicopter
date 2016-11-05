@@ -8,8 +8,12 @@ from plans.models import Profil
 
 def index(request):
     if request.user.is_authenticated():
-        profil=Profil.objects.filter(user=request.user.pk)[0]
-        if profil.statut==2: #professeur
+        profils=list(Profil.objects.filter(user=request.user.pk))
+        if len(profils)==0:
+            # oncrée le profil nul à la volée si nécessaire
+            profil=Profil(user=request.user)
+            profil.save()
+        if profil and profil.statut==2: #professeur
             ### on affiche la liste des profs, des élèves inscrits,
             ### et des élèves visiteurs
             pProf=Profil.objects.filter(statut=2).order_by("user__last_name","user__first_name")

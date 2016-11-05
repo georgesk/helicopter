@@ -1,4 +1,6 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from .models import CHOICES_ANALOG, CHOICES_BINARY, Plan
 
 # Create your views here.
 
@@ -24,3 +26,17 @@ def svg(modeladmin, request, queryset):
 
 svg.short_description="Afficher les dessins"
     
+def intervalles(request):
+    """
+    renvoie l'intervalle analogique qui correspond à un paramètre
+    de plan.
+    """
+    n=int(request.GET.get("analog_data",0))
+    fieldname = CHOICES_ANALOG[n][1]
+    field=[f for f in Plan._meta.fields if f.verbose_name==fieldname][0]
+    return JsonResponse({
+        "param" : fieldname,
+        "min"     : field.choices[0][0],
+        "max"     : field.choices[-1][0],
+        "ok"      : True,
+    })

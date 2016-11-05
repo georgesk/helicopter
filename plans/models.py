@@ -327,3 +327,42 @@ class Profil(models.Model):
     
     def verbose_statut(self):
         return [p[1] for p in PROFIL_CHOIX if p[0]==self.statut][0]
+
+CHOICES_ANALOG = list(enumerate([f.verbose_name for f in Plan._meta.fields if isinstance(f, models.IntegerField) and len(f.choices)>2]))
+
+CHOICES_BINARY = list(enumerate([f.verbose_name for f in Plan._meta.fields if isinstance(f, models.BooleanField) and f.name!="imprimer_symboles"]+
+                               [f.verbose_name for f in Plan._meta.fields if isinstance(f, models.IntegerField) and len(f.choices)==2]))
+
+class experienceAA(models.Model):
+    param1 = models.IntegerField(
+        verbose_name = "paramètre analogique 1",
+        default      = 0,
+        choices      = CHOICES_ANALOG,
+    )
+    param2 = models.IntegerField(
+        verbose_name = "paramètre analogique 2",
+        default      = 0,
+        choices      = CHOICES_ANALOG,
+    )
+    val11 =  models.IntegerField(
+        verbose_name = "valeur 1 (1)",
+    )
+    val12 =  models.IntegerField(
+        verbose_name = "valeur 1 (2)",
+    )
+    val13 =  models.IntegerField(
+        verbose_name = "valeur 1 (3)",
+    )
+    val21 =  models.IntegerField(
+        verbose_name = "valeur 2 (1)",
+    )
+    val22 =  models.IntegerField(
+        verbose_name = "valeur 2 (2)",
+    )
+    val23 =  models.IntegerField(
+        verbose_name = "valeur 2 (3)",
+    )
+    val24 =  models.IntegerField(
+        verbose_name = "valeur 2 (4)",
+    )
+

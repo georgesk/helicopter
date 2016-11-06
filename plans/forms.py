@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from .models import variationAA, variationBA
+from .models import variationAA, variationBA, variationBB
 from django.utils.safestring import mark_safe
 
 
@@ -72,3 +72,20 @@ class variationBAAdminForm(forms.ModelForm):
             cleaned_data["val33"]=int(v[2])
         if len( errors ) > 0: 
             raise forms.ValidationError(errors)
+
+
+class variationBBAdminForm(forms.ModelForm):
+    class Meta:
+        model = variationBB
+        fields = ("auteur","param11","param12", "param13","param21", "param22")
+
+    def clean(self):
+        errors = {}
+        cleaned_data = super(variationBBAdminForm, self).clean()
+        p11 = cleaned_data.get("param11")
+        p12 = cleaned_data.get("param12")
+        p13 = cleaned_data.get("param13")
+        p21 = cleaned_data.get("param21")
+        p22 = cleaned_data.get("param22")
+        if len(set((p11,p12,p13,p21,p22))) < 5:
+            raise forms.ValidationError("Les paramètres binaires choisis doivent tous être différents !")

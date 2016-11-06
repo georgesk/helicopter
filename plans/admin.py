@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Plan, Profil, variationAA, variationBA, \
+from .models import Plan, Profil, variationAA, variationBA, variationBB,\
     Experience
 import plans.views as views
 from .forms import variationAAAdminForm, variationBAAdminForm
@@ -89,11 +89,33 @@ class variationBAAdmin(admin.ModelAdmin):
         }
     list_display  = ["auteur", "param1", "param2","param3", "val31", "val32", "val33"]
     form = variationBAAdminForm
-    
+
 admin.site.register(variationBA, variationBAAdmin)
 
+class variationBBAdmin(admin.ModelAdmin):
+    class Media:
+        js = (
+            '/static/plans/js/jquery/jquery.js',
+            '/static/plans/js/jquery-ui/jquery-ui.js',
+        )
+        css = {
+            'all': (
+                '/static/plans/css/base.css',
+                '/static/plans/js/jquery-ui/css/smoothness/jquery-ui.min.css',
+            ),
+        }
+    list_display  = ["auteur", "param11", "param12","param13", "param21", "param22"]
+    fields = (
+        ('auteur'),
+        ("param11", "param12","param13"),
+        ("param21", "param22"),
+    )
+    
+    
+admin.site.register(variationBB, variationBBAdmin)
+
 class ExperienceAdmin(admin.ModelAdmin):
-    list_display = ["auteur", "creation", "plan", "var1"]
+    list_display = ["auteur", "creation", "plan", "var1", "var2"]
 
 
 admin.site.register(Experience, ExperienceAdmin)

@@ -435,7 +435,59 @@ class variationBA(models.Model):
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation BA({au} {param1},{param3}=[{val31},{val32},{val33},])".format(**dico)
+        return "Variation BA({au} {param1},{param2},{param3}=[{val31},{val32},{val33},])".format(**dico)
+
+class variationBB(models.Model):
+    """
+    Décrit une variation systématique de cinq paramètres "binaires",
+    en un groupe de trois et un groupe de deux.
+    d'où la possibilité d'imprimer 12 plans différents.
+    """
+    class Meta:
+        verbose_name = "variation binaire/binaire"
+        verbose_name_plural = "variations binaire/binaire"
+
+    auteur   = models.ForeignKey(User)
+    creation = models.DateTimeField(
+        editable=False,
+        auto_now_add=True,
+        blank=True,
+        verbose_name = "Date de création de la variation"
+    )
+    param11 = models.IntegerField(
+        verbose_name = "premier paramètre du premier groupe",
+        default      = 0,
+        choices      = CHOICES_BINARY,
+    )
+    param12 = models.IntegerField(
+        verbose_name = "deuxième paramètre du premier groupe",
+        default      = 0,
+        choices      = CHOICES_BINARY,
+    )
+    param13 = models.IntegerField(
+        verbose_name = "troisième paramètre du premier groupe",
+        default      = 0,
+        choices      = CHOICES_BINARY,
+    )
+    param21 = models.IntegerField(
+        verbose_name = "premier paramètre du deuxième groupe",
+        default      = 0,
+        choices      = CHOICES_BINARY,
+    )
+    param22 = models.IntegerField(
+        verbose_name = "deuxième paramètre du deuxième groupe",
+        default      = 0,
+        choices      = CHOICES_BINARY,
+    )
+
+    def __str__(self):
+        dico=self.__dict__
+        dico["au"]=self.auteur
+        return "Variation BB({au} {param11},{param12},{param13},{param21},{param22}".format(**dico)
+
+    def clean(self):
+        if len(set((self.param11,self.param12,self.param13,self.param21,self.param22))) < 5:
+            raise forms.ValidationError("Les paramètres binaires choisis doivent tous être différents !")
 
 
 class Experience(models.Model):
@@ -455,11 +507,19 @@ class Experience(models.Model):
     )
     auteur = models.ForeignKey(User)
     plan   = models.ForeignKey(Plan)
-    var1   = models.ForeignKey(variationAA, blank=True, null=True, default=None)
-    var2   = models.ForeignKey(variationBA, blank=True, null=True, default=None)
-    """
-    var3   = models.ForeignKey(variationBB)
-    """
+    var1   = models.ForeignKey(variationAA,
+                               blank=True, null=True, default=None,
+                               verbose_name="variantes analogique/analogique",
+    )
+    var2   = models.ForeignKey(variationBA,
+                               blank=True, null=True, default=None,
+                               verbose_name="variantes binaire/analogique",
+    )
+    var3   = models.ForeignKey(variationBB,
+                               blank=True, null=True, default=None,
+                               verbose_name="variantes binaire/binaire",
+    )
+    
     
     def clean(self, *args, **kwargs):
         """
@@ -467,17 +527,16 @@ class Experience(models.Model):
         définie
         """
         error=""
-        # var=list(set((self.var1, self.var2, self.var3)))
-        var=list(set((self.var1, self.var2)))
+        var=list(set((self.var1, self.var2, self.var3)))
         if len(var)==1:
             error="Il faut définir au moins une variation !"
         if len(var)>2 or None not in var:
             error="Il faut définir au plus une variation !"
         if error:
-            raise forms.ValidationError(errors)
+            raise forms.ValidationError(error)
         super(Experience, self).clean(*args, **kwargs)
         
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Experience({}, {}, {}, {})".format(self.auteur, self.plan, self.var1, self.var2)
+        return "Experience({}, {}, {}, {}, {})".format(self.auteur, self.plan, self.var1, self.var2, self.var3)

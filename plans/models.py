@@ -6,7 +6,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from helicopter.svg import *
 from svg.path import *
-import math, hashlib
+import math, hashlib, tempfile, os.path
+from subprocess import call
 
 class Plan(models.Model):
     version = "v1.0"
@@ -109,16 +110,16 @@ class Plan(models.Model):
         x=15
         y=20
         result=[]
-        result.append(Text("Auteur : {}".format(auteur), x=x, y=y, size=6, textAnchor="left"))
+        result.append(Text(self.immatriculation, x=x, y=y, size=6, textAnchor="left"))
         for f in self._meta.get_fields():
             # inutile d'imprimer l'ID de la base de données
             if f.name.lower() in ('id', 'experience'):
                 continue
-            y+=10
+            y+=7
             text="{} : {}".format(f.verbose_name, getattr(self, f.name))
             result.append(Text(text, x=x, y=y, size=6, textAnchor="left"))
-        y+=10
-        result.append(Text(self.immatriculation, x=x, y=y, size=6, textAnchor="left"))
+        y+=7
+        result.append(Text("Auteur : {}".format(auteur), x=x, y=y, size=6, textAnchor="left"))
         y+=30
         result.append(Text("NOTES MANUSCRITES", x=x, y=y, size=6, textAnchor="left"))
         return result
@@ -130,7 +131,7 @@ class Plan(models.Model):
         """
         ## origine au centre de la feuille, mais un peu décalée
         ## pour faire de la place au cartouche des paramètres
-        xo, yo = 210/2+50, 297/2-40
+        xo, yo = 210/2+50, 297/2+15
         ## liste de chemins à tracer
         paths=[] 
         ## Partie droite de l'hélice
@@ -594,3 +595,59 @@ class Experience(models.Model):
         dico=self.__dict__
         dico["au"]=self.auteur
         return "Experience({}, {}, {}, {}, {})".format(self.auteur, self.plan, self.var1, self.var2, self.var3)
+
+    def toPdf(self):
+        """
+        Fabrique un fichier PDF de 12 pages qui correspond aux 
+        douze variantes demandées.
+        """
+        with tempfile.TemporaryDirectory(prefix='experience-') as tempdir:
+            svgDocs=[]
+            if self.var1:
+                ## déclinaison avec deux variables analogiques
+                for v1 in (self.var1.val11, self.var1.val12, self.var1. val13):
+                    for v2 in (self.var1.val21, self.var1.val22, self.var1.val23, self.var1.val24):
+                        ## on fait une copie du plan, qu'on n'enregistrera pas
+                        p=self.plan
+                        p.pk=None
+                        # on change p selon self.var1.param1
+                        fieldname1=nameOfChoiceAnalog(self.var1.param1)
+                        setattr(p,fieldname1, v1)
+                        # on change p selon self.var1.param2
+                        fieldname2=nameOfChoiceAnalog(self.var1.param2)
+                        setattr(p,fieldname2, v2)
+                        p.auteur=self.auteur
+                        #on empile le document svg
+                        svgDocs.append(p.svg())
+            else:
+                raise ValueError("expérience inconnue, pas pu faire de plan !")
+            outSvgFiles=[]
+            outPdfFiles=[]
+            i=0
+            for d in svgDocs:
+                # on injecte le document svg dans un fichier temporaire
+                svgName=os.path.join(tempdir, "%03d.svg" %i)
+                outfile=open(svgName,"w")
+                outfile.write(d)
+                outfile.close()
+                pdfName=os.path.join(tempdir, "%03d.pdf" %i)
+                i+=1
+                # on le convertir vers PDF avec Inkscape
+                cmd="inkscape -f {} --export-pdf {}".format(svgName, pdfName)
+                call(cmd, shell=True)
+            # on concatène toutes les pages pour former un seul PDF
+            cmd="pdftk {0}/0*.pdf cat output {0}/exp.pdf".format(tempdir)
+            call(cmd, shell=True)
+            # on récupère ça sous forme de flux d'octets
+            result=open("{0}/exp.pdf".format(tempdir),"rb").read()
+            # on efface tout dans le dossier temporaire
+            cmd="rm {}/*".format(tempdir)
+            call(cmd, shell=True)
+            # on renvoie le flux PDF
+            return result
+                
+def nameOfChoiceAnalog(n):
+    """
+    renvoie le nom du champ de plan qui est le nième champ analogique
+    """
+    return [f.name for f in Plan._meta.get_fields() if f.name.lower() not in ('id', 'experience', 'creation') and f.verbose_name==CHOICES_ANALOG[n][1]][0]

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .models import CHOICES_ANALOG, CHOICES_BINARY, Plan
+from .models import CHOICES_ANALOG, CHOICES_BINARY, Plan, Experience
 from django.db import models
 
 # Create your views here.
@@ -62,3 +62,16 @@ def radios(request):
         "second": second,
         "ok"    : True,
     })
+
+def experience(request):
+    """
+    fabrique un PDF correspondant à une expérience
+    """
+    id=int(request.GET.get("id","1"))
+    e=Experience.objects.get(pk=id)
+    pdf=e.toPdf()
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="exp.pdf"'
+    response['Content-Length'] = str(len(pdf))
+    response.write(pdf)
+    return response

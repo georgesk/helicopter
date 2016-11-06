@@ -270,8 +270,8 @@ class Plan(models.Model):
             # habitacle
             paths.append(Text("Habitacle de l'hélicoptère", size="3.5",
                               x=xo, y=yo+self.hauteur_habitacle/2))
-            paths.append(Text(self.immatriculation, size="2",
-                              x=xo, y=yo+self.hauteur_habitacle/2+6))
+            paths.append(Text(self.immatriculation, size="1.7",
+                              x=xo, y=yo+self.hauteur_habitacle/2+4))
             #trombone
             paths.append(Text("📎:{}".format(self.trombones), size="10", x=xo,
                               y=yo+self.hauteur_habitacle+self.hauteur_corps-2))
@@ -281,6 +281,13 @@ class Plan(models.Model):
                                   x=xo-self.largeur_totale/3,
                                   y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
                 paths.append(Text("zone à découper", size="3.5", rotate=90,
+                                  x=xo+self.largeur_totale/3,
+                                  y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
+            else:
+                paths.append(Text("zone à replier", size="3.5", rotate=90,
+                                  x=xo-self.largeur_totale/3,
+                                  y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
+                paths.append(Text("zone à replier", size="3.5", rotate=90,
                                   x=xo+self.largeur_totale/3,
                                   y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
             # Signes de pliage selon la chiralité
@@ -605,18 +612,85 @@ class Experience(models.Model):
             svgDocs=[]
             if self.var1:
                 ## déclinaison avec deux variables analogiques
+                fieldname1=fieldOfChoiceAnalog(self.var1.param1).name
+                fieldname2=fieldOfChoiceAnalog(self.var1.param2).name
                 for v1 in (self.var1.val11, self.var1.val12, self.var1. val13):
                     for v2 in (self.var1.val21, self.var1.val22, self.var1.val23, self.var1.val24):
                         ## on fait une copie du plan, qu'on n'enregistrera pas
                         p=self.plan
                         p.pk=None
                         # on change p selon self.var1.param1
-                        fieldname1=nameOfChoiceAnalog(self.var1.param1)
                         setattr(p,fieldname1, v1)
                         # on change p selon self.var1.param2
-                        fieldname2=nameOfChoiceAnalog(self.var1.param2)
                         setattr(p,fieldname2, v2)
                         p.auteur=self.auteur
+                        p.creation=self.creation
+                        #on empile le document svg
+                        svgDocs.append(p.svg())
+            elif self.var2:
+                ## déclinaison avec deux variables binaires et une analogique
+                field1=fieldOfChoiceBinary(self.var2.param1)
+                field2=fieldOfChoiceBinary(self.var2.param2)
+                field3=fieldOfChoiceAnalog(self.var2.param3)
+                val1=tupleFromBinaryField(field1)
+                val2=tupleFromBinaryField(field2)
+                for v1 in val1:
+                    for v2 in val2:
+                        for v3 in (self.var2.val31, self.var2.val32, self.var2. val33):
+                            ## on fait une copie du plan
+                            p=self.plan
+                            p.pk=None
+                            # on change p selon self.var2.param1
+                            setattr(p,field1.name, v1)
+                            # on change p selon self.var2.param2
+                            setattr(p,field2.name, v2)
+                            # on change p selon self.var2.param3
+                            setattr(p,field3.name, v3)
+                            p.auteur=self.auteur
+                            p.creation=self.creation
+                            #on empile le document svg
+                            svgDocs.append(p.svg())
+            elif self.var3:
+                ## déclinaison avec cinq variables binaires
+                field1=fieldOfChoiceBinary(self.var3.param11)
+                field2=fieldOfChoiceBinary(self.var3.param12)
+                field3=fieldOfChoiceBinary(self.var3.param13)
+                field4=fieldOfChoiceBinary(self.var3.param21)
+                field5=fieldOfChoiceBinary(self.var3.param22)
+                val1=tupleFromBinaryField(field1)
+                val2=tupleFromBinaryField(field2)
+                val3=tupleFromBinaryField(field3)
+                val4=tupleFromBinaryField(field4)
+                val5=tupleFromBinaryField(field5)
+                ## boucle pour les 8 premières feuilles
+                for v1 in val1:
+                    for v2 in val2:
+                        for v3 in val3:
+                            ## on fait une copie du plan
+                            p=self.plan
+                            p.pk=None
+                            # on change p selon self.var3.param1
+                            setattr(p,field1.name, v1)
+                            # on change p selon self.var3.param2
+                            setattr(p,field2.name, v2)
+                            # on change p selon self.var3.param3
+                            setattr(p,field3.name, v3)
+                            p.auteur=self.auteur
+                            p.creation=self.creation
+                            #on empile le document svg
+                            svgDocs.append(p.svg())
+                ## boucle pour les 4 feuilles suivantes
+                for v4 in val4:
+                    for v5 in val5:
+                        ## on fait une copie du plan
+                        p=self.plan
+                        p.pk=None
+                        # on change p selon self.var3.param4
+                        setattr(p,field4.name, v4)
+                        # on change p selon self.var3.param5
+                        setattr(p,field5.name, v5)
+                        p.auteur=self.auteur
+                        p.creation=self.creation
                         #on empile le document svg
                         svgDocs.append(p.svg())
             else:
@@ -646,8 +720,25 @@ class Experience(models.Model):
             # on renvoie le flux PDF
             return result
                 
-def nameOfChoiceAnalog(n):
+def fieldOfChoiceAnalog(n):
     """
-    renvoie le nom du champ de plan qui est le nième champ analogique
+    renvoie le champ de plan qui est le nième champ analogique
     """
-    return [f.name for f in Plan._meta.get_fields() if f.name.lower() not in ('id', 'experience', 'creation') and f.verbose_name==CHOICES_ANALOG[n][1]][0]
+    return [f for f in Plan._meta.get_fields() if f.name.lower() not in ('id', 'experience', 'creation') and f.verbose_name==CHOICES_ANALOG[n][1]][0]
+
+def fieldOfChoiceBinary(n):
+    """
+    renvoie le champ de plan qui est le nième champ analogique
+    """
+    return [f for f in Plan._meta.get_fields() if f.name.lower() not in ('id', 'experience', 'creation') and f.verbose_name==CHOICES_BINARY[n][1]][0]
+
+def tupleFromBinaryField(field):
+    """
+    renvoie un tuple qui correspond à un champ binaire, soit booléen,
+    soit discret à deux valeurs
+    """
+    if isinstance(field,models.BooleanField):
+        return (False, True)
+    else:
+        return (field.choices[0][0], field.choices[1][0])
+    

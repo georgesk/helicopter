@@ -41,3 +41,42 @@ span.remark {
     font-size: 60%;
     color: #888;
 }
+
+a.legitimateAction{
+    font-size: 140%;
+    background: #eff;
+    border: 1px solid navy;
+    border-radius: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+table.plan {
+    background: white;
+    margin: 1em;
+    padding: 0.3em;
+    width: 95%;
+}
+
+table.plan th {
+    background-color: lightcyan;
+    border: 1px black solid;
+    border-radius: 0.5em;
+    padding: 0.5em;
+}
+table.plan tr.t1 th{
+    background-color: #8ff;
+    font-size: 200%;
+}
+table.plan tr.t2 th{
+    font-size: 120%%;
+    text-align: left;
+}
+
+table.plan td {
+    background-color: lightyellow;
+    border: 1px black solid;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    text-align: left;
+}

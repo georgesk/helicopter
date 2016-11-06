@@ -91,6 +91,7 @@ class Plan(models.Model):
         attributs = [str(getattr(self, f.name)) for f in self._meta.get_fields() if f.name.lower() not in ('id', 'experience', 'creation')]
         return "Plan object(" + ", ".join(attributs) + ")"
 
+    @property
     def immatriculation(self):
         """
         return une chaîne de caractères immatriculant de façon unique(?)
@@ -111,11 +112,13 @@ class Plan(models.Model):
         result.append(Text("Auteur : {}".format(auteur), x=x, y=y, size=6, textAnchor="left"))
         for f in self._meta.get_fields():
             # inutile d'imprimer l'ID de la base de données
-            if f.name.lower()=='id':
+            if f.name.lower() in ('id', 'experience'):
                 continue
             y+=10
             text="{} : {}".format(f.verbose_name, getattr(self, f.name))
             result.append(Text(text, x=x, y=y, size=6, textAnchor="left"))
+        y+=10
+        result.append(Text(self.immatriculation, x=x, y=y, size=6, textAnchor="left"))
         y+=30
         result.append(Text("NOTES MANUSCRITES", x=x, y=y, size=6, textAnchor="left"))
         return result
@@ -266,7 +269,7 @@ class Plan(models.Model):
             # habitacle
             paths.append(Text("Habitacle de l'hélicoptère", size="3.5",
                               x=xo, y=yo+self.hauteur_habitacle/2))
-            paths.append(Text(self.immatriculation(), size="2",
+            paths.append(Text(self.immatriculation, size="2",
                               x=xo, y=yo+self.hauteur_habitacle/2+6))
             #trombone
             paths.append(Text("📎:{}".format(self.trombones), size="10", x=xo,
@@ -384,10 +387,23 @@ class variationAA(models.Model):
         verbose_name = "valeur 2 (4)",
     )
 
+    @property
+    def param1_name(self):
+        return CHOICES_ANALOG[self.param1][1]
+    @property
+    def param2_name(self):
+        return CHOICES_ANALOG[self.param2][1]
+    @property
+    def hash(self):
+        """
+        return une chaîne de caractères immatriculant de façon unique(?)
+        """
+        return hashlib.md5(self.__str__().encode("utf-8")).hexdigest()
+    
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation AA({au} [{param1}={val11},{val12},{val13}],[{param2}={val21},{val22},{val23},{val24}])".format(**dico)
+        return "Variation AA ({au}) [{param1}={val11},{val12},{val13}],[{param2}={val21},{val22},{val23},{val24}])".format(**dico)
 
 
 class variationBA(models.Model):
@@ -432,10 +448,26 @@ class variationBA(models.Model):
         verbose_name = "valeur 3 (3)",
     )
 
+    @property
+    def param1_name(self):
+        return CHOICES_BINARY[self.param1][1]
+    @property
+    def param2_name(self):
+        return CHOICES_BINARY[self.param2][1]
+    @property
+    def param3_name(self):
+        return CHOICES_ANALOG[self.param3][1]
+    @property
+    def hash(self):
+        """
+        return une chaîne de caractères immatriculant de façon unique(?)
+        """
+        return hashlib.md5(self.__str__().encode("utf-8")).hexdigest()
+    
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation BA({au} {param1},{param2},{param3}=[{val31},{val32},{val33},])".format(**dico)
+        return "Variation BA ({au}) {param1},{param2},{param3}=[{val31},{val32},{val33},])".format(**dico)
 
 class variationBB(models.Model):
     """
@@ -479,11 +511,33 @@ class variationBB(models.Model):
         default      = 0,
         choices      = CHOICES_BINARY,
     )
+    
+    @property
+    def param11_name(self):
+        return CHOICES_BINARY[self.param11][1]
+    @property
+    def param12_name(self):
+        return CHOICES_BINARY[self.param12][1]
+    @property
+    def param13_name(self):
+        return CHOICES_BINARY[self.param13][1]
+    @property
+    def param21_name(self):
+        return CHOICES_BINARY[self.param21][1]
+    @property
+    def param22_name(self):
+        return CHOICES_BINARY[self.param22][1]
+    @property
+    def hash(self):
+        """
+        return une chaîne de caractères immatriculant de façon unique(?)
+        """
+        return hashlib.md5(self.__str__().encode("utf-8")).hexdigest()
 
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation BB({au} {param11},{param12},{param13},{param21},{param22}".format(**dico)
+        return "Variation BB ({au}) {param11},{param12},{param13},{param21},{param22}".format(**dico)
 
     def clean(self):
         if len(set((self.param11,self.param12,self.param13,self.param21,self.param22))) < 5:

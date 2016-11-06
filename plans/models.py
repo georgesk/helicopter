@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.forms import Form, ModelForm, ValidationError, Select
@@ -386,7 +387,55 @@ class variationAA(models.Model):
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation({au} [{param1}={val11},{val12},{val13}],[{param2}={val21},{val22},{val23},{val24}])".format(**dico)
+        return "Variation AA({au} [{param1}={val11},{val12},{val13}],[{param2}={val21},{val22},{val23},{val24}])".format(**dico)
+
+
+class variationBA(models.Model):
+    """
+    Décrit une variation systématique de deux paramètres "binaires"
+    et un paramètre analogique qui prendra 3 valeurs différentes.
+    d'où la possibilité d'imprimer 12 plans différents.
+    """
+    class Meta:
+        verbose_name = "variation binaire/analogique"
+        verbose_name_plural = "variations binaire/analogique"
+
+    auteur   = models.ForeignKey(User)
+    creation = models.DateTimeField(
+        editable=False,
+        auto_now_add=True,
+        blank=True,
+        verbose_name = "Date de création de la variation"
+    )
+    param1 = models.IntegerField(
+        verbose_name = "paramètre binaire 1",
+        default      = 0,
+        choices      = CHOICES_BINARY,
+    )
+    param2 = models.IntegerField(
+        verbose_name = "paramètre binaire 2",
+        default      = 0,
+        choices      = CHOICES_BINARY,
+    )
+    param3 = models.IntegerField(
+        verbose_name = "paramètre analogique",
+        default      = 0,
+        choices      = CHOICES_ANALOG,
+    )
+    val31 =  models.IntegerField(
+        verbose_name = "valeur 3 (1)",
+    )
+    val32 =  models.IntegerField(
+        verbose_name = "valeur 3 (3)",
+    )
+    val33 =  models.IntegerField(
+        verbose_name = "valeur 3 (3)",
+    )
+
+    def __str__(self):
+        dico=self.__dict__
+        dico["au"]=self.auteur
+        return "Variation BA({au} {param1},{param3}=[{val31},{val32},{val33},])".format(**dico)
 
 
 class Experience(models.Model):
@@ -406,9 +455,9 @@ class Experience(models.Model):
     )
     auteur = models.ForeignKey(User)
     plan   = models.ForeignKey(Plan)
-    var1   = models.ForeignKey(variationAA, blank=True, default=None)
+    var1   = models.ForeignKey(variationAA, blank=True, null=True, default=None)
+    var2   = models.ForeignKey(variationBA, blank=True, null=True, default=None)
     """
-    var2   = models.ForeignKey(variationAB)
     var3   = models.ForeignKey(variationBB)
     """
     
@@ -417,9 +466,18 @@ class Experience(models.Model):
         On vérifie qu'une et une seule des clés var1, var2, var3 est
         définie
         """
+        error=""
+        # var=list(set((self.var1, self.var2, self.var3)))
+        var=list(set((self.var1, self.var2)))
+        if len(var)==1:
+            error="Il faut définir au moins une variation !"
+        if len(var)>2 or None not in var:
+            error="Il faut définir au plus une variation !"
+        if error:
+            raise forms.ValidationError(errors)
         super(Experience, self).clean(*args, **kwargs)
         
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Experience({}, {}, {})".format(self.auteur, self.plan, self.var1)
+        return "Experience({}, {}, {}, {})".format(self.auteur, self.plan, self.var1, self.var2)

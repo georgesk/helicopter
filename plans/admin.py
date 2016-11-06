@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Plan, Profil, variationAA, Experience
+from .models import Plan, Profil, variationAA, variationBA, \
+    Experience
 import plans.views as views
-from .forms import variationAAAdminForm
+from .forms import variationAAAdminForm, variationBAAdminForm
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
@@ -70,6 +71,26 @@ class variationAAAdmin(admin.ModelAdmin):
     form = variationAAAdminForm
     
 admin.site.register(variationAA, variationAAAdmin)
+
+class variationBAAdmin(admin.ModelAdmin):
+    class Media:
+        js = (
+            '/static/plans/js/jquery/jquery.js',
+            '/static/plans/js/jquery-ui/jquery-ui.js',
+            '/static/plans/js/select2.js/select2.js',
+            '/static/plans/js/expBA.js',
+        )
+        css = {
+            'all': (
+                '/static/plans/css/base.css',
+                '/static/plans/js/jquery-ui/css/smoothness/jquery-ui.min.css',
+                '/static/plans/js/select2.js/select2.css',
+            ),
+        }
+    list_display  = ["auteur", "param1", "param2","param3", "val31", "val32", "val33"]
+    form = variationBAAdminForm
+    
+admin.site.register(variationBA, variationBAAdmin)
 
 class ExperienceAdmin(admin.ModelAdmin):
     list_display = ["auteur", "creation", "plan", "var1"]

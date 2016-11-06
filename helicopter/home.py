@@ -13,6 +13,8 @@ def index(request):
             # oncrée le profil nul à la volée si nécessaire
             profil=Profil(user=request.user)
             profil.save()
+        else:
+            profil=profils[0]
         if profil and profil.statut==2: #professeur
             ### on affiche la liste des profs, des élèves inscrits,
             ### et des élèves visiteurs

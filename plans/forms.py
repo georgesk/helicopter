@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
-from .models import variationAA
+from .models import variationAA, variationBA
+from django.utils.safestring import mark_safe
 
 
 class variationAAAdminForm(forms.ModelForm):
@@ -39,5 +40,35 @@ class variationAAAdminForm(forms.ModelForm):
             cleaned_data["val22"]=int(v2[1])
             cleaned_data["val23"]=int(v2[2])
             cleaned_data["val24"]=int(v2[3])
+        if len( errors ) > 0: 
+            raise forms.ValidationError(errors)
+
+class HorizontalRadioRenderer(forms.RadioSelect.renderer):
+  def render(self):
+    return mark_safe('\n'.join(['%s\n' % w for w in self]))
+
+class variationBAAdminForm(forms.ModelForm):
+    val31=forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    val32=forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    val33=forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    val=forms.CharField(widget=forms.SelectMultiple())
+    class Meta:
+        model = variationBA
+        fields = ("auteur","param1", "param2", "param3", "val31", "val32", "val33")
+
+    def clean(self):
+        errors = {}
+        cleaned_data = super(variationBAAdminForm, self).clean()
+        v = eval(cleaned_data.get("val"))
+        p1 = cleaned_data.get("param1")
+        p2 = cleaned_data.get("param2")
+        if p1==p2:
+            errors.setdefault('param1',[]).append("Les paramètres 1 et 2 doivent être deux grandeurs différentes !")
+        if len(v) != 3:
+            errors.setdefault('val1',[]).append("Le dernier paramètre doit avoir trois valeurs différentes")
+        else:
+            cleaned_data["val31"]=int(v[0])
+            cleaned_data["val32"]=int(v[1])
+            cleaned_data["val33"]=int(v[2])
         if len( errors ) > 0: 
             raise forms.ValidationError(errors)

@@ -123,7 +123,28 @@ class Plan(models.Model):
         y+=30
         result.append(Text("NOTES MANUSCRITES", x=x, y=y, size=6, textAnchor="left"))
         return result
-    
+
+    def pdf(self):
+        """
+        Fabrique un objet pafe PDF dans un flux binaire
+        """
+        with tempfile.TemporaryDirectory(prefix='plan-') as tempdir:
+            svgName=os.path.join(tempdir, "plan.svg")
+            outfile=open(svgName,"w")
+            outfile.write(self.svg())
+            outfile.close()
+            pdfName=os.path.join(tempdir, "plan.pdf")
+            # on le convertir vers PDF avec Inkscape
+            cmd="inkscape -f {} --export-pdf {}".format(svgName, pdfName)
+            call(cmd, shell=True)
+            # on récupère ça sous forme de flux d'octets
+            result=open("{0}/plan.pdf".format(tempdir),"rb").read()
+            # on efface tout dans le dossier temporaire
+            cmd="rm {}/*".format(tempdir)
+            call(cmd, shell=True)
+            # on renvoie le flux PDF
+            return result
+            
     def svg(self):
         """
         Fabrique le code d'un objet SVG représentant l'hélicoptère

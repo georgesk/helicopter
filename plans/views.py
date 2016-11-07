@@ -75,3 +75,16 @@ def experience(request):
     response['Content-Length'] = str(len(pdf))
     response.write(pdf)
     return response
+
+def unPlan(request):
+    """
+    fabrique un PDF correspondant à un plan
+    """
+    id=int(request.GET.get("id","1"))
+    p=Plan.objects.get(pk=id)
+    pdf=p.pdf()
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="unPlan.pdf"'
+    response['Content-Length'] = str(len(pdf))
+    response.write(pdf)
+    return response

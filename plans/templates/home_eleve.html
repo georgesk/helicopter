@@ -44,7 +44,12 @@
 <table class="plan">
   {% for p in plans %}
   <a name="{{p.immatriculation}}"/>
-  <tr class="t1"><th colspan="8">{{p.immatriculation}}</th></tr>
+  <tr class="t1">
+    <th colspan="8">
+      {{p.immatriculation}}<br/>
+      <a href="/plans/unPlan?id={{p.pk}}">Imprimer le plan</a>
+    </th>
+  </tr>
   <tr class="t2"><th colspan="2">Date de création</th><th colspan="2">Auteur</th><th>Hauteur de l'hélice</th><th>Hauteur de l'habitacle</th><th>Hauteur du corps</th><th>Largeur totale</th></tr>
   <tr><td colspan="2">{{p.creation}}</td><td colspan="2">{{p.auteur.first_name}} {{p.auteur.last_name}}</td><td>{{p.hauteur_helice}}</td><td>{{p.hauteur_habitacle}}</td><td>{{p.hauteur_corps}}</td><td>{{p.largeur_totale}}</td></tr>
   <tr class="t2"><th>Nombre de trombones</th><th>Présence d'un repli</th><th>Scotch sur le corps</th><th>Scotch sur les hélices</th><th>Décalage du repli</th><th>Angle du repli</th><th>Nombre de couches du corps</th><th>Sens de rotation</th></tr>

@@ -130,7 +130,7 @@ class Plan(models.Model):
         """
         with tempfile.TemporaryDirectory(prefix='plan-') as tempdir:
             svgName=os.path.join(tempdir, "plan.svg")
-            outfile=open(svgName,"w")
+            outfile=open(svgName,"w", encoding="utf-8")
             outfile.write(self.svg())
             outfile.close()
             pdfName=os.path.join(tempdir, "plan.pdf")
@@ -344,7 +344,7 @@ class Plan(models.Model):
         Enregistre au format SVG
         @param filename un nom de fichier où écrire les données
         """
-        with open(filemname,"w") as out:
+        with open(filemname,"w", encoding="utf-8") as out:
             out.write(self.svg())
 
 
@@ -722,7 +722,7 @@ class Experience(models.Model):
             for d in svgDocs:
                 # on injecte le document svg dans un fichier temporaire
                 svgName=os.path.join(tempdir, "%03d.svg" %i)
-                outfile=open(svgName,"w")
+                outfile=open(svgName,"w", encoding="utf-8")
                 outfile.write(d)
                 outfile.close()
                 pdfName=os.path.join(tempdir, "%03d.pdf" %i)

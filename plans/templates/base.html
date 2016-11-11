@@ -1,7 +1,8 @@
 {% load static %}
+{% load i18n %}
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>{% block title %}Plans d'hélicoptère{% endblock %}</title>
+    <title>{% block title %}{% trans "Helicopter plans" %}{% endblock %}</title>
     {% block headJsCss %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript" src="{% static 'plans/js/jquery/jquery.js' %}">
@@ -16,7 +17,7 @@
     {% endblock %}
   </head>
   <body>
-    <h1>{% block contentTitle %}Plans d'hélicoptère{% endblock %}</h1>
+    <h1>{% block contentTitle %}{% trans "Helicopter plans" %}{% endblock %}</h1>
     {% block content %}
     {% endblock %}
   </body>

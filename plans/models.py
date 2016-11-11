@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -13,79 +14,82 @@ class Plan(models.Model):
     version = "v1.0"
     class Meta:
         unique_together = ('hauteur_helice', 'hauteur_habitacle', 'hauteur_corps', 'largeur_totale', 'trombones', 'repli', 'corps_scotche', 'helices_scotchees', 'decalage_repli', 'angle_repli', 'couches_corps', 'sens_rotation', 'largeur_scotch', 'imprimer_symboles')
+        verbose_name = _("plan")
+        verbose_name_plural = _("plans")
+        
     creation = models.DateTimeField(
         editable=False,
         auto_now_add=True,
         blank=True,
-        verbose_name = "Date de création du plan"
+        verbose_name = _("Plan's creation date")
     )
     auteur = models.ForeignKey(User)
     hauteur_helice = models.IntegerField(
-        verbose_name = "Hauteur de l'hélice (mm)",
+        verbose_name = _("Propellor's height (mm)"),
         default      = 70,
         choices      = [(n,n) for n in range(65,126)],
     )
     hauteur_habitacle = models.IntegerField(
-        verbose_name = "Hauteur de l'habitacle (mm)",
+        verbose_name = _("Cabin's height (mm)"),
         default      = 25,
         choices      = [(n,n) for n in range(10,36)],
     )
     hauteur_corps = models.IntegerField(
-        verbose_name = "Hauteur du corps (mm)",
+        verbose_name = _("Body's height (mm)"),
         default      = 70,
         choices      = [(n,n) for n in range(35,126)],
     )
     largeur_totale = models.IntegerField(
-        verbose_name = "Largeur totale (mm)",
+        verbose_name = _("Total width (mm)"),
         default      = 50,
         choices      = [(n,n) for n in range(40,66)],
     )
     trombones = models.IntegerField(
-        verbose_name = "Nombre de trombones",
+        verbose_name = _("Number of paper clips"),
         default      = 1,
         choices      = [(n,n) for n in range(1,4)],
     )
     repli = models.BooleanField(
-        verbose_name = "Repli en bout d'hélice",
+        verbose_name = _("Fold the propellor's extremity"),
         default = True
     )
     corps_scotche = models.BooleanField(
-        verbose_name = "Corps scotché",
+        verbose_name = _("Taped body"),
         default = True
     )
     helices_scotchees = models.BooleanField(
-        verbose_name = "Hélices scotchées",
+        verbose_name = _("Taped propellor"),
         default = True
     )
     decalage_repli = models.IntegerField(
-        verbose_name = "Décalage du repli (mm)",
+        verbose_name = _("Folding's offset (mm)"),
         default      = 5,
         choices      = [(n,n) for n in range(0,21)],
     )
     angle_repli = models.IntegerField(
-        verbose_name = "Angle du repli (°)",
+        verbose_name = _("Folding's angle (degree)"),
         default      = 75,
         choices      = [(n,n) for n in range(70,111)],
     )
     couches_corps = models.IntegerField(
-        verbose_name = "Corps en n couche repliées",
+        verbose_name = _("Body layers"),
         default      = 1,
         choices      = [(1,1),(3,3)],
     )
     sens_rotation = models.IntegerField(
-        verbose_name = "Sens de rotation",
+        verbose_name = _("Rotation sense"),
         default      = 1,
-        choices      = [(1,"horaire"),(-1,"anti-horaire")],
+        choices      = [(1,_("clockwise")),(-1,_("counterclockwise"))],
     )
     largeur_scotch = models.IntegerField(
-        verbose_name = "Largeur de scotch (mm)",
+        verbose_name = _("Adhesive tape width (mm)"),
         default      = 19,
         choices      = [(19,19)],
     )
     imprimer_symboles = models.BooleanField(
-        verbose_name = "Imprimer les symboles",
+        verbose_name = _("Print symbols"),
         default = True,
-        choices = [(True, "Oui")],
+        choices = [(True, _("Yes"))],
     )
 
     def __str__(self):
@@ -105,7 +109,7 @@ class Plan(models.Model):
         Renvoie une liste de "paths" à imprimer pour caractériser
         un plan
         """
-        if not auteur: auteur="Anonyme"
+        if not auteur: auteur="Anonymous"
         # on commence dans les marges
         x=15
         y=20
@@ -119,9 +123,9 @@ class Plan(models.Model):
             text="{} : {}".format(f.verbose_name, getattr(self, f.name))
             result.append(Text(text, x=x, y=y, size=6, textAnchor="left"))
         y+=7
-        result.append(Text("Auteur : {}".format(auteur), x=x, y=y, size=6, textAnchor="left"))
+        result.append(Text(_("Author: {}").format(auteur), x=x, y=y, size=6, textAnchor="left"))
         y+=30
-        result.append(Text("NOTES MANUSCRITES", x=x, y=y, size=6, textAnchor="left"))
+        result.append(Text(_("HANDWRITTEN NOTES"), x=x, y=y, size=6, textAnchor="left"))
         return result
 
     def pdf(self):
@@ -289,7 +293,7 @@ class Plan(models.Model):
         # marquages par du texte
         if self.imprimer_symboles:
             # habitacle
-            paths.append(Text("Habitacle de l'hélicoptère", size="3.5",
+            paths.append(Text(_("Cabin"), size="3.5",
                               x=xo, y=yo+self.hauteur_habitacle/2))
             paths.append(Text(self.immatriculation, size="1.7",
                               x=xo, y=yo+self.hauteur_habitacle/2+4))
@@ -298,21 +302,21 @@ class Plan(models.Model):
                               y=yo+self.hauteur_habitacle+self.hauteur_corps-2))
             # découper les zone hachurées
             if self.couches_corps==1:
-                paths.append(Text("zone à découper", size="3.5", rotate=90,
+                paths.append(Text(_("Cut off this area"), size="3.5", rotate=90,
                                   x=xo-self.largeur_totale/3,
                                   y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
-                paths.append(Text("zone à découper", size="3.5", rotate=90,
+                paths.append(Text(_("Cut off this area"), size="3.5", rotate=90,
                                   x=xo+self.largeur_totale/3,
                                   y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
             else:
-                paths.append(Text("zone à replier", size="3.5", rotate=90,
+                paths.append(Text(_("Fold this area"), size="3.5", rotate=90,
                                   x=xo-self.largeur_totale/3,
                                   y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
-                paths.append(Text("zone à replier", size="3.5", rotate=90,
+                paths.append(Text(_("Fold this area"), size="3.5", rotate=90,
                                   x=xo+self.largeur_totale/3,
                                   y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
             # Signes de pliage selon la chiralité
-            texteRotation={1: "horaire", -1: "anti-horaire"}
+            texteRotation={1: _("clockwise"), -1: _("counterclockwise")}
             paths.append(Text(texteRotation[self.sens_rotation], size="3.5",
                               x=xo+self.sens_rotation*self.largeur_totale/4,
                               y=yo-5))
@@ -327,19 +331,19 @@ class Plan(models.Model):
                               y=yo-10))
         # mention des scotchs à coller
         if self.corps_scotche:
-            paths.append(Text("scotch", size=5, rotate=90,
+            paths.append(Text(_("Tape"), size=5, rotate=90,
                               x=xo,
                               y=yo+self.hauteur_habitacle+self.hauteur_corps/2))
         if self.helices_scotchees:
-            paths.append(Text("scotch", size=5, rotate=90,
+            paths.append(Text(_("Tape"), size=5, rotate=90,
                               x=xo+self.largeur_totale/4,
                               y=yo-self.hauteur_helice/2))
-            paths.append(Text("scotch", size=5, rotate=90,
+            paths.append(Text(_("Tape"), size=5, rotate=90,
                               x=xo-self.largeur_totale/4,
                               y=yo-self.hauteur_helice/2))
         return toSvg(paths+self.cartoucheSvg())
 
-    def saveSvg(self, filename="/tmp/helicoptere.svg"):
+    def saveSvg(self, filename=_("/tmp/helicopter.svg")):
         """
         Enregistre au format SVG
         @param filename un nom de fichier où écrire les données
@@ -348,8 +352,13 @@ class Plan(models.Model):
             out.write(self.svg())
 
 
-PROFIL_CHOIX = ((0,"non inscrit"),(1,"élève atelier"),(2,"prof atelier"))
+PROFIL_CHOIX = ((0,_("unsubscribed")),(1,_("workshop's student")),(2,_("workshop's teacher")))
 class Profil(models.Model):
+
+    class Meta:
+        verbose_name = _("profile")
+        verbose_name_plural = _("profiles")
+        
     user   = models.OneToOneField(User)
     statut = models.IntegerField(
         default      = 0,
@@ -357,7 +366,8 @@ class Profil(models.Model):
     )
 
     def __str__(self):
-        return "Profil de {} : {}".format(self.user, self.verbose_statut())
+        return _("Profile of {user}: {status}").format(user=self.user,
+                                                       status=self.verbose_statut())
     
     def verbose_statut(self):
         return [p[1] for p in PROFIL_CHOIX if p[0]==self.statut][0]
@@ -374,46 +384,46 @@ class variationAA(models.Model):
     d'où la possibilité d'imprimer 12 plans différents.
     """
     class Meta:
-        verbose_name = "variation analogique/analogique"
-        verbose_name_plural = "variations analogique/analogique"
+        verbose_name = _("analog/analog variation")
+        verbose_name_plural = _("analog/analog variations")
 
     auteur   = models.ForeignKey(User)
     creation = models.DateTimeField(
         editable=False,
         auto_now_add=True,
         blank=True,
-        verbose_name = "Date de création de la variation"
+        verbose_name = _("Variation's creation date")
     )
     param1 = models.IntegerField(
-        verbose_name = "paramètre analogique 1",
+        verbose_name = _("analog parameter #1"),
         default      = 0,
         choices      = CHOICES_ANALOG,
     )
     param2 = models.IntegerField(
-        verbose_name = "paramètre analogique 2",
+        verbose_name = _("analog parameter #2"),
         default      = 0,
         choices      = CHOICES_ANALOG,
     )
     val11 =  models.IntegerField(
-        verbose_name = "valeur 1 (1)",
+        verbose_name = _("value #1 (1)"),
     )
     val12 =  models.IntegerField(
-        verbose_name = "valeur 1 (2)",
+        verbose_name = _("value #1 (2)"),
     )
     val13 =  models.IntegerField(
-        verbose_name = "valeur 1 (3)",
+        verbose_name = _("value #1 (3)"),
     )
     val21 =  models.IntegerField(
-        verbose_name = "valeur 2 (1)",
+        verbose_name = _("value #2 (1)"),
     )
     val22 =  models.IntegerField(
-        verbose_name = "valeur 2 (2)",
+        verbose_name = _("value #2 (2)"),
     )
     val23 =  models.IntegerField(
-        verbose_name = "valeur 2 (3)",
+        verbose_name = _("value #2 (3)"),
     )
     val24 =  models.IntegerField(
-        verbose_name = "valeur 2 (4)",
+        verbose_name = _("value #2 (4)"),
     )
 
     @property
@@ -432,7 +442,7 @@ class variationAA(models.Model):
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation AA ({au}) [{param1}={val11},{val12},{val13}],[{param2}={val21},{val22},{val23},{val24}])".format(**dico)
+        return _("A/A Variation ({au}) [{param1}={val11},{val12},{val13}],[{param2}={val21},{val22},{val23},{val24}])").format(**dico)
 
 
 class variationBA(models.Model):
@@ -442,39 +452,39 @@ class variationBA(models.Model):
     d'où la possibilité d'imprimer 12 plans différents.
     """
     class Meta:
-        verbose_name = "variation binaire/analogique"
-        verbose_name_plural = "variations binaire/analogique"
+        verbose_name = _("digital/analog variation")
+        verbose_name_plural = _("digital/analog variations")
 
     auteur   = models.ForeignKey(User)
     creation = models.DateTimeField(
         editable=False,
         auto_now_add=True,
         blank=True,
-        verbose_name = "Date de création de la variation"
+        verbose_name = _("Variation's creation date")
     )
     param1 = models.IntegerField(
-        verbose_name = "paramètre binaire 1",
+        verbose_name = _("Digital parameter #1"),
         default      = 0,
         choices      = CHOICES_BINARY,
     )
     param2 = models.IntegerField(
-        verbose_name = "paramètre binaire 2",
+        verbose_name = _("Digital parameter #2"),
         default      = 0,
         choices      = CHOICES_BINARY,
     )
     param3 = models.IntegerField(
-        verbose_name = "paramètre analogique",
+        verbose_name = _("Analog parameter"),
         default      = 0,
         choices      = CHOICES_ANALOG,
     )
     val31 =  models.IntegerField(
-        verbose_name = "valeur 3 (1)",
+        verbose_name = _("value #3 (1)"),
     )
     val32 =  models.IntegerField(
-        verbose_name = "valeur 3 (3)",
+        verbose_name = _("value #3 (3)"),
     )
     val33 =  models.IntegerField(
-        verbose_name = "valeur 3 (3)",
+        verbose_name = _("value #3 (3)"),
     )
 
     @property
@@ -496,7 +506,7 @@ class variationBA(models.Model):
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation BA ({au}) {param1},{param2},{param3}=[{val31},{val32},{val33},])".format(**dico)
+        return _("D/A Variation ({au}) {param1},{param2},{param3}=[{val31},{val32},{val33},])").format(**dico)
 
 class variationBB(models.Model):
     """
@@ -505,38 +515,38 @@ class variationBB(models.Model):
     d'où la possibilité d'imprimer 12 plans différents.
     """
     class Meta:
-        verbose_name = "variation binaire/binaire"
-        verbose_name_plural = "variations binaire/binaire"
+        verbose_name = _("Digital/digital variation")
+        verbose_name_plural = _("Digital/digital variations")
 
     auteur   = models.ForeignKey(User)
     creation = models.DateTimeField(
         editable=False,
         auto_now_add=True,
         blank=True,
-        verbose_name = "Date de création de la variation"
+        verbose_name = _("Variation's creation date")
     )
     param11 = models.IntegerField(
-        verbose_name = "premier paramètre du premier groupe",
+        verbose_name = _("First parameter of the first group"),
         default      = 0,
         choices      = CHOICES_BINARY,
     )
     param12 = models.IntegerField(
-        verbose_name = "deuxième paramètre du premier groupe",
+        verbose_name = _("Second parameter of the first group"),
         default      = 0,
         choices      = CHOICES_BINARY,
     )
     param13 = models.IntegerField(
-        verbose_name = "troisième paramètre du premier groupe",
+        verbose_name = _("Third parameter of the first group"),
         default      = 0,
         choices      = CHOICES_BINARY,
     )
     param21 = models.IntegerField(
-        verbose_name = "premier paramètre du deuxième groupe",
+        verbose_name = _("First parameter of the second group"),
         default      = 0,
         choices      = CHOICES_BINARY,
     )
     param22 = models.IntegerField(
-        verbose_name = "deuxième paramètre du deuxième groupe",
+        verbose_name = _("Second parameter of the second group"),
         default      = 0,
         choices      = CHOICES_BINARY,
     )
@@ -566,11 +576,11 @@ class variationBB(models.Model):
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Variation BB ({au}) {param11},{param12},{param13},{param21},{param22}".format(**dico)
+        return _("D/D Variation ({au}) {param11},{param12},{param13},{param21},{param22}").format(**dico)
 
     def clean(self):
         if len(set((self.param11,self.param12,self.param13,self.param21,self.param22))) < 5:
-            raise forms.ValidationError("Les paramètres binaires choisis doivent tous être différents !")
+            raise forms.ValidationError(_("Chosen digital parameters must all be distinct!"))
 
 
 class Experience(models.Model):
@@ -582,25 +592,30 @@ class Experience(models.Model):
     .
     Une expérience est associée à un auteur et une date de conception.
     """
+
+    class Meta:
+        verbose_name = _("experiment")
+        verbose_name_plural = _("experiments")
+
     creation = models.DateTimeField(
         editable=False,
         auto_now_add=True,
         blank=True,
-        verbose_name = "Date de création de l'expérience"
+        verbose_name = _("Experiment's creation date")
     )
     auteur = models.ForeignKey(User)
     plan   = models.ForeignKey(Plan)
     var1   = models.ForeignKey(variationAA,
                                blank=True, null=True, default=None,
-                               verbose_name="variantes analogique/analogique",
+                               verbose_name=_("analog/analog variants"),
     )
     var2   = models.ForeignKey(variationBA,
                                blank=True, null=True, default=None,
-                               verbose_name="variantes binaire/analogique",
+                               verbose_name=_("digital/analog variants"),
     )
     var3   = models.ForeignKey(variationBB,
                                blank=True, null=True, default=None,
-                               verbose_name="variantes binaire/binaire",
+                               verbose_name=_("digital/digital variants"),
     )
     
     
@@ -612,9 +627,9 @@ class Experience(models.Model):
         error=""
         var=list(set((self.var1, self.var2, self.var3)))
         if len(var)==1:
-            error="Il faut définir au moins une variation !"
+            error=_("At least one variation must be defined!")
         if len(var)>2 or None not in var:
-            error="Il faut définir au plus une variation !"
+            error=_("At most one variation must be defined!")
         if error:
             raise forms.ValidationError(error)
         super(Experience, self).clean(*args, **kwargs)
@@ -622,7 +637,7 @@ class Experience(models.Model):
     def __str__(self):
         dico=self.__dict__
         dico["au"]=self.auteur
-        return "Experience({}, {}, {}, {}, {})".format(self.auteur, self.plan, self.var1, self.var2, self.var3)
+        return _("Experiment ({}, {}, {}, {}, {})").format(self.auteur, self.plan, self.var1, self.var2, self.var3)
 
     def toPdf(self):
         """
@@ -715,7 +730,7 @@ class Experience(models.Model):
                         #on empile le document svg
                         svgDocs.append(p.svg())
             else:
-                raise ValueError("expérience inconnue, pas pu faire de plan !")
+                raise ValueError(_("unexpected experiment, could not make a plan!"))
             outSvgFiles=[]
             outPdfFiles=[]
             i=0

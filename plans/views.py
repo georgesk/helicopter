@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import CHOICES_ANALOG, CHOICES_BINARY, Plan, Experience
@@ -25,7 +26,7 @@ def svg(modeladmin, request, queryset):
         break ## boucle utilisée une seule fois !!!
     return response
 
-svg.short_description="Afficher les dessins"
+svg.short_description=_("Show the plans")
     
 def intervalles(request):
     """

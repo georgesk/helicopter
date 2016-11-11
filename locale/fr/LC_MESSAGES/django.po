@@ -1,0 +1,496 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-11-11 17:12+0000\n"
+"PO-Revision-Date: 2016-11-11 17:39+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: plans/forms.py:30 plans/forms.py:67
+msgid "Parameters #1 and #2 must be two distinct features!"
+msgstr "Les paramètres 1 et 2 doivent être deux grandeurs différentes !"
+
+#: plans/forms.py:32
+msgid "The first parameter must be given three distinct values"
+msgstr "Le premier paramètre doit avoir trois valeurs différentes"
+
+#: plans/forms.py:38
+msgid "The second parameter must be given four distinct values"
+msgstr "Le second paramètre doit avoir quatre valeurs différentes"
+
+#: plans/forms.py:69
+msgid "The last parameter must be given three distinct values"
+msgstr "Le dernier paramètre doit avoir trois valeurs différentes"
+
+#: plans/forms.py:92
+msgid "All chosen digital parameters must be distinct!"
+msgstr "Les paramètres binaires choisis doivent tous être différents !"
+
+#: plans/models.py:17
+msgid "plan"
+msgstr "plan"
+
+#: plans/models.py:18
+msgid "plans"
+msgstr "plans"
+
+#: plans/models.py:24
+msgid "Plan's creation date"
+msgstr "Date de création du plan"
+
+#: plans/models.py:28
+msgid "Propellor's height (mm)"
+msgstr "Hauteur de l'hélice (mm)"
+
+#: plans/models.py:33 plans/templates/home_eleve.html:68
+msgid "Cabin's height (mm)"
+msgstr "Hauteur de l'habitacle (mm)"
+
+#: plans/models.py:38 plans/templates/home_eleve.html:69
+msgid "Body's height (mm)"
+msgstr "Hauteur du corps (mm)"
+
+#: plans/models.py:43 plans/templates/home_eleve.html:70
+msgid "Total width (mm)"
+msgstr "Largeur totale (mm)"
+
+#: plans/models.py:48 plans/templates/home_eleve.html:81
+msgid "Number of paper clips"
+msgstr "Nombre de trombones"
+
+#: plans/models.py:53
+msgid "Fold the propellor's extremity"
+msgstr "Repli en bout d'hélice"
+
+#: plans/models.py:57
+msgid "Taped body"
+msgstr "Corps scotché"
+
+#: plans/models.py:61
+msgid "Taped propellor"
+msgstr "Hélices scotchées"
+
+#: plans/models.py:65 plans/templates/home_eleve.html:85
+msgid "Folding's offset (mm)"
+msgstr "Décalage du repli (mm)"
+
+#: plans/models.py:70 plans/templates/home_eleve.html:86
+msgid "Folding's angle (degree)"
+msgstr "Angle du repli (°)"
+
+#: plans/models.py:75 plans/templates/home_eleve.html:87
+msgid "Body layers"
+msgstr "Corps en n couche repliées"
+
+#: plans/models.py:80 plans/templates/home_eleve.html:88
+msgid "Rotation sense"
+msgstr "Sens de rotation"
+
+#: plans/models.py:82 plans/models.py:319
+msgid "clockwise"
+msgstr "horaire"
+
+#: plans/models.py:82 plans/models.py:319
+msgid "counterclockwise"
+msgstr "anti-horaire"
+
+#: plans/models.py:85
+msgid "Adhesive tape width (mm)"
+msgstr "Largeur de scotch (mm)"
+
+#: plans/models.py:90
+msgid "Print symbols"
+msgstr "Imprimer les symboles"
+
+#: plans/models.py:92
+msgid "Yes"
+msgstr "Oui"
+
+#: plans/models.py:126
+msgid "Author: {}"
+msgstr "Auteur : {}"
+
+#: plans/models.py:128
+msgid "HANDWRITTEN NOTES"
+msgstr "NOTES MANUSCRITES"
+
+#: plans/models.py:296
+msgid "Cabin"
+msgstr "Habitacle de l'hélicoptère"
+
+#: plans/models.py:305 plans/models.py:308
+msgid "Cut off this area"
+msgstr "zone à découper"
+
+#: plans/models.py:312 plans/models.py:315
+msgid "Fold this area"
+msgstr "zone à replier"
+
+#: plans/models.py:334 plans/models.py:338 plans/models.py:341
+msgid "Tape"
+msgstr "scotch"
+
+#: plans/models.py:346
+msgid "/tmp/helicopter.svg"
+msgstr "/tmp/hélicoptère.svg"
+
+#: plans/models.py:355
+msgid "unsubscribed"
+msgstr "non inscrit"
+
+#: plans/models.py:355
+msgid "workshop's student"
+msgstr "élève atelier"
+
+#: plans/models.py:355
+msgid "workshop's teacher"
+msgstr "prof atelier"
+
+#: plans/models.py:359
+msgid "profile"
+msgstr "profil"
+
+#: plans/models.py:360
+msgid "profiles"
+msgstr "profils"
+
+#: plans/models.py:369
+#, python-brace-format
+msgid "Profile of {user}: {status}"
+msgstr "Profil de {user} : {status}"
+
+#: plans/models.py:387
+msgid "analog/analog variation"
+msgstr "variation analogique/analogique"
+
+#: plans/models.py:388
+msgid "analog/analog variations"
+msgstr "variations analogique/analogique"
+
+#: plans/models.py:395 plans/models.py:463 plans/models.py:526
+msgid "Variation's creation date"
+msgstr "Date de création de la variation"
+
+#: plans/models.py:398
+msgid "analog parameter #1"
+msgstr "paramètre analogique 1"
+
+#: plans/models.py:403
+msgid "analog parameter #2"
+msgstr "paramètre analogique 2"
+
+#: plans/models.py:408
+msgid "value #1 (1)"
+msgstr "valeur 1 (1)"
+
+#: plans/models.py:411
+msgid "value #1 (2)"
+msgstr "valeur 1 (2)"
+
+#: plans/models.py:414
+msgid "value #1 (3)"
+msgstr "valeur 1 (3)"
+
+#: plans/models.py:417
+msgid "value #2 (1)"
+msgstr "valeur 2 (1)"
+
+#: plans/models.py:420
+msgid "value #2 (2)"
+msgstr "valeur 2 (2)"
+
+#: plans/models.py:423
+msgid "value #2 (3)"
+msgstr "valeur 2 (3)"
+
+#: plans/models.py:426
+msgid "value #2 (4)"
+msgstr "valeur 2 (4)"
+
+#: plans/models.py:445
+#, python-brace-format
+msgid ""
+"A/A Variation ({au}) [{param1}={val11},{val12},{val13}],[{param2}={val21},"
+"{val22},{val23},{val24}])"
+msgstr ""
+"Variation AA ({au}) [{param1}={val11},{val12},{val13}],[{param2}={val21},"
+"{val22},{val23},{val24}])"
+
+#: plans/models.py:455
+msgid "digital/analog variation"
+msgstr "variation binaire/analogique"
+
+#: plans/models.py:456
+msgid "digital/analog variations"
+msgstr "variations binaire/analogique"
+
+#: plans/models.py:466
+msgid "Digital parameter #1"
+msgstr "paramètre binaire 1"
+
+#: plans/models.py:471
+msgid "Digital parameter #2"
+msgstr "paramètre binaire 2"
+
+#: plans/models.py:476
+msgid "Analog parameter"
+msgstr "paramètre analogique"
+
+#: plans/models.py:481
+msgid "value #3 (1)"
+msgstr "valeur 3 (1)"
+
+#: plans/models.py:484 plans/models.py:487
+msgid "value #3 (3)"
+msgstr "valeur 3 (3)"
+
+#: plans/models.py:509
+#, python-brace-format
+msgid ""
+"D/A Variation ({au}) {param1},{param2},{param3}=[{val31},{val32},{val33},])"
+msgstr ""
+"Variation BA ({au}) {param1},{param2},{param3}=[{val31},{val32},{val33},])"
+
+#: plans/models.py:518
+msgid "Digital/digital variation"
+msgstr "variation binaire/binaire"
+
+#: plans/models.py:519
+msgid "Digital/digital variations"
+msgstr "variations binaire/binaire"
+
+#: plans/models.py:529
+msgid "First parameter of the first group"
+msgstr "premier paramètre du premier groupe"
+
+#: plans/models.py:534
+msgid "Second parameter of the first group"
+msgstr "deuxième paramètre du premier groupe"
+
+#: plans/models.py:539
+msgid "Third parameter of the first group"
+msgstr "troisième paramètre du premier groupe"
+
+#: plans/models.py:544
+msgid "First parameter of the second group"
+msgstr "premier paramètre du deuxième groupe"
+
+#: plans/models.py:549
+msgid "Second parameter of the second group"
+msgstr "deuxième paramètre du deuxième groupe"
+
+#: plans/models.py:579
+#, python-brace-format
+msgid "D/D Variation ({au}) {param11},{param12},{param13},{param21},{param22}"
+msgstr "Variation BB ({au}) {param11},{param12},{param13},{param21},{param22}"
+
+#: plans/models.py:583
+msgid "Chosen digital parameters must all be distinct!"
+msgstr "Les paramètres binaires choisis doivent tous être différents !"
+
+#: plans/models.py:597
+msgid "experiment"
+msgstr "expérience"
+
+#: plans/models.py:598
+msgid "experiments"
+msgstr "expériences"
+
+#: plans/models.py:604
+msgid "Experiment's creation date"
+msgstr "Date de création de l'expérience"
+
+#: plans/models.py:610
+msgid "analog/analog variants"
+msgstr "variantes analogique/analogique"
+
+#: plans/models.py:614
+msgid "digital/analog variants"
+msgstr "variantes binaire/analogique"
+
+#: plans/models.py:618
+msgid "digital/digital variants"
+msgstr "variantes binaire/binaire"
+
+#: plans/models.py:630
+msgid "At least one variation must be defined!"
+msgstr "Il faut définir au moins une variation !"
+
+#: plans/models.py:632
+msgid "At most one variation must be defined!"
+msgstr "Il faut définir au plus une variation !"
+
+#: plans/models.py:640
+msgid "Experiment ({}, {}, {}, {}, {})"
+msgstr "Expérience ({}, {}, {}, {}, {})"
+
+#: plans/models.py:733
+msgid "unexpected experiment, could not make a plan!"
+msgstr "expérience inconnue, pas pu faire de plan !"
+
+#: plans/templates/base.html:5 plans/templates/base.html:20
+msgid "Helicopter plans"
+msgstr "Plans d'hélicoptère"
+
+#: plans/templates/home.html:2 plans/templates/home.html:3
+msgid "Helicopter: main page"
+msgstr "Hélicoptère : Page d'accueil"
+
+#: plans/templates/home.html:21
+msgid "Welcome {{user.first_name}} {{user.last_name}}"
+msgstr "Bienvenue {{user.first_name}} {{user.last_name}}"
+
+#: plans/templates/home.html:23
+msgid "teacher"
+msgstr "professeur"
+
+#: plans/templates/home.html:25
+msgid "Click for options ↡"
+msgstr "Cliquer pour les options ↡"
+
+#: plans/templates/home.html:30
+msgid "Administration"
+msgstr "Administration"
+
+#: plans/templates/home.html:34
+msgid "Disconnect"
+msgstr "Déconnexion"
+
+#: plans/templates/home.html:42
+msgid "Profile: {{profil}}"
+msgstr "Profil : {{profil}}"
+
+#: plans/templates/home_eleve.html:5
+msgid "Status: {{profil}}"
+msgstr "Statut : {{profil}}"
+
+#: plans/templates/home_eleve.html:12
+msgid "Workshop management"
+msgstr "Gestion des travaux"
+
+#: plans/templates/home_eleve.html:17
+msgid "Define experiments"
+msgstr "Définitions d'expériences"
+
+#: plans/templates/home_eleve.html:19
+msgid "Create an experiment with twelve tests"
+msgstr "Créer une expérience à douze tests"
+
+#: plans/templates/home_eleve.html:28
+msgid "Print experiment's pages"
+msgstr "Imprimer les feuilles d'expérience"
+
+#: plans/templates/home_eleve.html:33
+#, fuzzy
+#| msgid "PBase plan"
+msgid "Base plan"
+msgstr "Plan de base"
+
+#: plans/templates/home_eleve.html:34
+#, fuzzy
+#| msgid "MMethod for 12 variations"
+msgid "Method for 12 variations"
+msgstr "Méthode pour 12 variations"
+
+#: plans/templates/home_eleve.html:50
+msgid "Plans"
+msgstr "Plans"
+
+#: plans/templates/home_eleve.html:52
+msgid "Create a helicopter plan"
+msgstr "Créer un plan d'hélicoptère"
+
+#: plans/templates/home_eleve.html:61
+msgid "Print the plan"
+msgstr "Imprimer le plan"
+
+#: plans/templates/home_eleve.html:65
+msgid "Creation date"
+msgstr "Date de création"
+
+#: plans/templates/home_eleve.html:66
+msgid "Author"
+msgstr "Auteur"
+
+#: plans/templates/home_eleve.html:67
+msgid "Propellors's height (mm)"
+msgstr "Hauteur de l'hélice (mm)"
+
+#: plans/templates/home_eleve.html:82
+msgid "The propellor's end is folded"
+msgstr "Présence d'un repli"
+
+#: plans/templates/home_eleve.html:83
+msgid "Tape on body"
+msgstr "Scotch sur le corps"
+
+#: plans/templates/home_eleve.html:84
+msgid "Tape on propellor"
+msgstr "Scotch sur les hélices"
+
+#: plans/templates/home_eleve.html:104
+msgid "Variants for plans"
+msgstr "Variantes pour les plans"
+
+#: plans/templates/home_eleve.html:108
+msgid "Create analog/analog variants"
+msgstr "Créer des variantes analogique/analogique"
+
+#: plans/templates/home_eleve.html:113
+msgid "Create digital/analog variants"
+msgstr "Créer des variantes binaire/analogique"
+
+#: plans/templates/home_eleve.html:118
+msgid "Create digital/digital variants"
+msgstr "Créer des variantes binaire/binaire"
+
+#: plans/templates/home_eleve.html:161 plans/templates/home_eleve.html:162
+msgid "Two values"
+msgstr "Deux valeurs"
+
+#: plans/templates/home_eleve.html:179
+msgid "Group #1 (8 possibilities)"
+msgstr "Groupe 1 (8 possibilités)"
+
+#: plans/templates/home_eleve.html:180
+msgid "Group #2 (4 possibilities)"
+msgstr "Groupe 2 (4 possibilités)"
+
+#: plans/templates/home_prof.html:11
+msgid "'Click to fold/unfold'"
+msgstr "'Clic pour plier/déplier'"
+
+#: plans/templates/home_prof.html:36
+msgid "Design experiments"
+msgstr "Préparer des plans d'expériences"
+
+#: plans/templates/home_prof.html:44
+msgid "Workshop teachers"
+msgstr "Professeurs de l'atelier"
+
+#: plans/templates/home_prof.html:58
+msgid "Workshop students"
+msgstr "Élèves de l'atelier"
+
+#: plans/templates/home_prof.html:72
+msgid "Authenticated visitors"
+msgstr "Visiteurs authentifiés"
+
+#: plans/templates/index.html:2 plans/templates/index.html:3
+msgid "Project Helicopter: home page"
+msgstr "Projet « hélicoptère » : page d'accueil"
+
+#: plans/views.py:29
+msgid "Show the plans"
+msgstr "Afficher les dessins"

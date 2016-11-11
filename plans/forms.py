@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib import admin
 from .models import variationAA, variationBA, variationBB
@@ -26,15 +27,15 @@ class variationAAAdminForm(forms.ModelForm):
         p1 = cleaned_data.get("param1")
         p2 = cleaned_data.get("param2")
         if p1==p2:
-            errors.setdefault('param1',[]).append("Les paramètres 1 et 2 doivent être deux grandeurs différentes !")
+            errors.setdefault('param1',[]).append(_("Parameters #1 and #2 must be two distinct features!"))
         if len(v1) != 3:
-            errors.setdefault('val1',[]).append("Le premier paramètre doit avoir trois valeurs différentes")
+            errors.setdefault('val1',[]).append(_("The first parameter must be given three distinct values"))
         else:
             cleaned_data["val11"]=int(v1[0])
             cleaned_data["val12"]=int(v1[1])
             cleaned_data["val13"]=int(v1[2])
         if len(v2) != 4:
-            errors.setdefault('val2',[]).append("Le premier paramètre doit avoir quatre valeurs différentes")
+            errors.setdefault('val2',[]).append(_("The second parameter must be given four distinct values"))
         else:
             cleaned_data["val21"]=int(v2[0])
             cleaned_data["val22"]=int(v2[1])
@@ -63,9 +64,9 @@ class variationBAAdminForm(forms.ModelForm):
         p1 = cleaned_data.get("param1")
         p2 = cleaned_data.get("param2")
         if p1==p2:
-            errors.setdefault('param1',[]).append("Les paramètres 1 et 2 doivent être deux grandeurs différentes !")
+            errors.setdefault('param1',[]).append(_("Parameters #1 and #2 must be two distinct features!"))
         if len(v) != 3:
-            errors.setdefault('val1',[]).append("Le dernier paramètre doit avoir trois valeurs différentes")
+            errors.setdefault('val1',[]).append(_("The last parameter must be given three distinct values"))
         else:
             cleaned_data["val31"]=int(v[0])
             cleaned_data["val32"]=int(v[1])
@@ -88,4 +89,4 @@ class variationBBAdminForm(forms.ModelForm):
         p21 = cleaned_data.get("param21")
         p22 = cleaned_data.get("param22")
         if len(set((p11,p12,p13,p21,p22))) < 5:
-            raise forms.ValidationError("Les paramètres binaires choisis doivent tous être différents !")
+            raise forms.ValidationError(_("All chosen digital parameters must be distinct!"))

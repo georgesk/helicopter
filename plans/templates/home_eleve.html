@@ -1,8 +1,8 @@
 {% extends "home.html" %}
-
+{% load i18n %}
     
 {% block localoptions %}
-<li>{% trans "Status: {{profil}}" %}</li>
+<li>{% blocktrans %}Status: {{profil}}{% endblocktrans %}</li>
 {% endblock %}
 
 {% block specificContent %}
@@ -187,11 +187,11 @@
     <th>{{v.param22_name}}</th>
   </tr>
   <tr>
-    <td>{% "Deux valeurs" %}</td>
-    <td>{% "Deux valeurs" %}</td>
-    <td>{% "Deux valeurs" %}</td>
-    <td>{% "Deux valeurs" %}</td>
-    <td>{% "Deux valeurs" %}</td>
+    <td>{% trans "Two values" %}</td>
+    <td>{% trans "Two values" %}</td>
+    <td>{% trans "Two values" %}</td>
+    <td>{% trans "Two values" %}</td>
+    <td>{% trans "Two values" %}</td>
   </tr>
   {% endfor %}
 </table>

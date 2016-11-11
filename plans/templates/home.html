@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load i18n %}
+
 {% block title %}{% trans "Helicopter: main page" %}{% endblock %}
 {% block contentTitle %}{% trans "Helicopter: main page" %}{% endblock %}
 {% block onload %}
@@ -18,7 +20,9 @@
     <div id="userinfo">
       <h3>
 	{% block welcome %}
-	{% trans "Welcome {{user.first_name}} {{user.last_name}}" %}
+	{% blocktrans with first_name=user.first_name last_name=user.last_name %}
+	Welcome {{first_name}} {{last_name}}
+	{% endblocktrans %}
 	{% ifequal estprof "prof" %}
 	<br/><span class="remark">{% trans "teacher" %}</span>
 	{% endifequal %}

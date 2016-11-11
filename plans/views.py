@@ -10,7 +10,9 @@ def index(request):
     """
     page d'accueil de /plans
     """
-    return render(request, "index.html",{})
+    return render(request, "index.html",{
+        "LANGUAGE_CODE": request.LANGUAGE_CODE,
+    })
 
 def svg(modeladmin, request, queryset):
     """

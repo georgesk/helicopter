@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-11 17:12+0000\n"
+"POT-Creation-Date: 2016-11-11 17:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: helicopter/settings.py:123
+msgid "French"
+msgstr ""
+
+#: helicopter/settings.py:124
+msgid "Turkish"
+msgstr ""
+
+#: helicopter/settings.py:125
+msgid "English"
+msgstr ""
 
 #: plans/forms.py:30 plans/forms.py:67
 msgid "Parameters #1 and #2 must be two distinct features!"
@@ -54,19 +66,19 @@ msgstr ""
 msgid "Propellor's height (mm)"
 msgstr ""
 
-#: plans/models.py:33 plans/templates/home_eleve.html:68
+#: plans/models.py:33 plans/templates/home_eleve.html:72
 msgid "Cabin's height (mm)"
 msgstr ""
 
-#: plans/models.py:38 plans/templates/home_eleve.html:69
+#: plans/models.py:38 plans/templates/home_eleve.html:73
 msgid "Body's height (mm)"
 msgstr ""
 
-#: plans/models.py:43 plans/templates/home_eleve.html:70
+#: plans/models.py:43 plans/templates/home_eleve.html:74
 msgid "Total width (mm)"
 msgstr ""
 
-#: plans/models.py:48 plans/templates/home_eleve.html:81
+#: plans/models.py:48 plans/templates/home_eleve.html:85
 msgid "Number of paper clips"
 msgstr ""
 
@@ -82,19 +94,19 @@ msgstr ""
 msgid "Taped propellor"
 msgstr ""
 
-#: plans/models.py:65 plans/templates/home_eleve.html:85
+#: plans/models.py:65 plans/templates/home_eleve.html:89
 msgid "Folding's offset (mm)"
 msgstr ""
 
-#: plans/models.py:70 plans/templates/home_eleve.html:86
+#: plans/models.py:70 plans/templates/home_eleve.html:90
 msgid "Folding's angle (degree)"
 msgstr ""
 
-#: plans/models.py:75 plans/templates/home_eleve.html:87
+#: plans/models.py:75 plans/templates/home_eleve.html:91
 msgid "Body layers"
 msgstr ""
 
-#: plans/models.py:80 plans/templates/home_eleve.html:88
+#: plans/models.py:80 plans/templates/home_eleve.html:92
 msgid "Rotation sense"
 msgstr ""
 
@@ -341,150 +353,161 @@ msgstr ""
 msgid "Helicopter plans"
 msgstr ""
 
-#: plans/templates/home.html:2 plans/templates/home.html:3
+#: plans/templates/home.html:4 plans/templates/home.html:5
 msgid "Helicopter: main page"
 msgstr ""
 
-#: plans/templates/home.html:21
-msgid "Welcome {{user.first_name}} {{user.last_name}}"
+#: plans/templates/home.html:23
+#, python-format
+msgid ""
+"\n"
+"\tWelcome %(first_name)s %(last_name)s\n"
+"\t"
 msgstr ""
 
-#: plans/templates/home.html:23
+#: plans/templates/home.html:27
 msgid "teacher"
 msgstr ""
 
-#: plans/templates/home.html:25
+#: plans/templates/home.html:29
 msgid "Click for options ↡"
 msgstr ""
 
-#: plans/templates/home.html:30
+#: plans/templates/home.html:34
 msgid "Administration"
 msgstr ""
 
-#: plans/templates/home.html:34
+#: plans/templates/home.html:38
 msgid "Disconnect"
 msgstr ""
 
-#: plans/templates/home.html:42
+#: plans/templates/home.html:46
 msgid "Profile: {{profil}}"
 msgstr ""
 
-#: plans/templates/home_eleve.html:5
-msgid "Status: {{profil}}"
+#: plans/templates/home_eleve.html:6
+#, python-format
+msgid ""
+"\n"
+"  Status: %(profil)s\n"
+"  "
 msgstr ""
 
-#: plans/templates/home_eleve.html:12
+#: plans/templates/home_eleve.html:16
 msgid "Workshop management"
 msgstr ""
 
-#: plans/templates/home_eleve.html:17
+#: plans/templates/home_eleve.html:21
 msgid "Define experiments"
 msgstr ""
 
-#: plans/templates/home_eleve.html:19
+#: plans/templates/home_eleve.html:23
 msgid "Create an experiment with twelve tests"
 msgstr ""
 
-#: plans/templates/home_eleve.html:28
+#: plans/templates/home_eleve.html:32
 msgid "Print experiment's pages"
 msgstr ""
 
-#: plans/templates/home_eleve.html:33
+#: plans/templates/home_eleve.html:37
 msgid "Base plan"
 msgstr ""
 
-#: plans/templates/home_eleve.html:34
+#: plans/templates/home_eleve.html:38
 msgid "Method for 12 variations"
 msgstr ""
 
-#: plans/templates/home_eleve.html:50
+#: plans/templates/home_eleve.html:54
 msgid "Plans"
 msgstr ""
 
-#: plans/templates/home_eleve.html:52
+#: plans/templates/home_eleve.html:56
 msgid "Create a helicopter plan"
 msgstr ""
 
-#: plans/templates/home_eleve.html:61
+#: plans/templates/home_eleve.html:65
 msgid "Print the plan"
 msgstr ""
 
-#: plans/templates/home_eleve.html:65
+#: plans/templates/home_eleve.html:69
 msgid "Creation date"
 msgstr ""
 
-#: plans/templates/home_eleve.html:66
+#: plans/templates/home_eleve.html:70
 msgid "Author"
 msgstr ""
 
-#: plans/templates/home_eleve.html:67
+#: plans/templates/home_eleve.html:71
 msgid "Propellors's height (mm)"
 msgstr ""
 
-#: plans/templates/home_eleve.html:82
+#: plans/templates/home_eleve.html:86
 msgid "The propellor's end is folded"
 msgstr ""
 
-#: plans/templates/home_eleve.html:83
+#: plans/templates/home_eleve.html:87
 msgid "Tape on body"
 msgstr ""
 
-#: plans/templates/home_eleve.html:84
+#: plans/templates/home_eleve.html:88
 msgid "Tape on propellor"
 msgstr ""
 
-#: plans/templates/home_eleve.html:104
+#: plans/templates/home_eleve.html:108
 msgid "Variants for plans"
 msgstr ""
 
-#: plans/templates/home_eleve.html:108
+#: plans/templates/home_eleve.html:112
 msgid "Create analog/analog variants"
 msgstr ""
 
-#: plans/templates/home_eleve.html:113
+#: plans/templates/home_eleve.html:117
 msgid "Create digital/analog variants"
 msgstr ""
 
-#: plans/templates/home_eleve.html:118
+#: plans/templates/home_eleve.html:122
 msgid "Create digital/digital variants"
 msgstr ""
 
-#: plans/templates/home_eleve.html:161 plans/templates/home_eleve.html:162
+#: plans/templates/home_eleve.html:165 plans/templates/home_eleve.html:166
+#: plans/templates/home_eleve.html:194 plans/templates/home_eleve.html:195
+#: plans/templates/home_eleve.html:196 plans/templates/home_eleve.html:197
+#: plans/templates/home_eleve.html:198
 msgid "Two values"
 msgstr ""
 
-#: plans/templates/home_eleve.html:179
+#: plans/templates/home_eleve.html:183
 msgid "Group #1 (8 possibilities)"
 msgstr ""
 
-#: plans/templates/home_eleve.html:180
+#: plans/templates/home_eleve.html:184
 msgid "Group #2 (4 possibilities)"
 msgstr ""
 
-#: plans/templates/home_prof.html:11
+#: plans/templates/home_prof.html:12
 msgid "'Click to fold/unfold'"
 msgstr ""
 
-#: plans/templates/home_prof.html:36
+#: plans/templates/home_prof.html:37
 msgid "Design experiments"
 msgstr ""
 
-#: plans/templates/home_prof.html:44
+#: plans/templates/home_prof.html:45
 msgid "Workshop teachers"
 msgstr ""
 
-#: plans/templates/home_prof.html:58
+#: plans/templates/home_prof.html:59
 msgid "Workshop students"
 msgstr ""
 
-#: plans/templates/home_prof.html:72
+#: plans/templates/home_prof.html:73
 msgid "Authenticated visitors"
 msgstr ""
 
-#: plans/templates/index.html:2 plans/templates/index.html:3
+#: plans/templates/index.html:4 plans/templates/index.html:5
 msgid "Project Helicopter: home page"
 msgstr ""
 
-#: plans/views.py:29
+#: plans/views.py:31
 msgid "Show the plans"
 msgstr ""

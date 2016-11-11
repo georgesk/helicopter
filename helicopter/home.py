@@ -56,6 +56,7 @@ def index(request):
                 request,
                 "home_prof.html",
                 {
+                    "LANGUAGE_CODE": request.LANGUAGE_CODE,
                     "profil"    : profil.verbose_statut(),
                     "profs"     : [p.user for p in pProf],
                     "eleves"    : [p.user for p in pEleve],
@@ -73,6 +74,7 @@ def index(request):
                 request,
                 "home_eleve.html",
                 {
+                    "LANGUAGE_CODE": request.LANGUAGE_CODE,
                     "profil"      : profil.verbose_statut(),
                     "plans"       : Plan.objects.filter(auteur=request.user),
                     "experiences" : Experience.objects.filter(auteur=request.user),
@@ -87,6 +89,7 @@ def index(request):
                 request,
                 "home.html",
                 {
+                    "LANGUAGE_CODE": request.LANGUAGE_CODE,
                     "profil": profil.verbose_statut()
                 }
             )

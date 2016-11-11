@@ -2,7 +2,11 @@
 {% load i18n %}
     
 {% block localoptions %}
-<li>{% blocktrans %}Status: {{profil}}{% endblocktrans %}</li>
+<li>
+  {% blocktrans %}
+  Status: {{profil}}
+  {% endblocktrans %}
+</li>
 {% endblock %}
 
 {% block specificContent %}

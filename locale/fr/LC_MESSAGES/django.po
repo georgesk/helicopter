@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-13 10:30+0000\n"
-"PO-Revision-Date: 2016-11-13 11:31+0100\n"
+"POT-Creation-Date: 2016-11-13 10:58+0000\n"
+"PO-Revision-Date: 2016-11-13 11:59+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -369,7 +369,8 @@ msgid ""
 "\t"
 msgstr ""
 "\n"
-"\t<img src=\"/static/plans/img/flag-fr.png\" width=\"30px\" alt=\"Drapeau français\" />\n"
+"\t<img src=\"/static/plans/img/flag-fr.png\" width=\"30px\" alt=\"Drapeau "
+"français\" />\n"
 "\tBienvenue %(first_name)s %(last_name)s\n"
 "\t"
 
@@ -390,8 +391,9 @@ msgid "Disconnect"
 msgstr "Déconnexion"
 
 #: plans/templates/home.html:63
-msgid "Profile: {{profil}}"
-msgstr "Profil : {{profil}}"
+#, python-format
+msgid "Profile: %(profil)s"
+msgstr "Profil : %(profil)s"
 
 #: plans/templates/home_eleve.html:6
 #, python-format

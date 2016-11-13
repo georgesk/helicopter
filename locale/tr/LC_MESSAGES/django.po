@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-11 17:56+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2016-11-13 10:30+0000\n"
+"PO-Revision-Date: 2016-11-13 11:37+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -361,27 +361,33 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
+"\t<img src=\"/static/plans/img/flag-en.png\" width=\"30px\" alt=\"English "
+"flag\" />\n"
 "\tWelcome %(first_name)s %(last_name)s\n"
 "\t"
 msgstr ""
+"\n"
+"\t<img src=\"/static/plans/img/flag-tr.png\" width=\"30px\" alt=\"Türk bayrağı\" />\n"
+"\tHoş geldin %(first_name)s %(last_name)s\n"
+"\t"
 
-#: plans/templates/home.html:27
+#: plans/templates/home.html:28
 msgid "teacher"
 msgstr ""
 
-#: plans/templates/home.html:29
+#: plans/templates/home.html:30
 msgid "Click for options ↡"
 msgstr ""
 
-#: plans/templates/home.html:34
+#: plans/templates/home.html:35
 msgid "Administration"
 msgstr ""
 
-#: plans/templates/home.html:38
+#: plans/templates/home.html:55
 msgid "Disconnect"
 msgstr ""
 
-#: plans/templates/home.html:46
+#: plans/templates/home.html:63
 msgid "Profile: {{profil}}"
 msgstr ""
 

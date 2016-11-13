@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^logout/$', django.contrib.auth.views.logout, {'next_page': '/login'}),
     url(r'^plans/', include('plans.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 ]
